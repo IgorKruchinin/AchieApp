@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Achie</string>
+    <string name="action_settings">Параметры</string>
+    <string name="profile_name">Имя профиля</string>
+    <string name="create">Создать</string>
+    <string name="date">Дата</string>
+    <string name="object">В какой сфере достижение</string>
+    <string name="type">Тип достижения</string>
+    <string name="measure">Мера</string>
+    <string name="count">Количество</string>
+    <string name="add">Добавить</string>
+    <string name="addToPlan">Запланировать достижение</string>
+    <string name="addAchie">Добавить достижение</string>
+    <string name="title_activity_view_achie">Просмотр достижения</string>
+    <string name="title_activity_add_achie">Добавить достижение</string>
+    <string name="title_activity_main_menu">Главная</string>
+    <string name="title_activity_add_prof">Доступные профили</string>
+</resources>
