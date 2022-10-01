@@ -27,7 +27,7 @@ public class MainMenuActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainMenuBinding binding;
     private Button addAchieBtn;
-    //private USM profile;
+    private USM profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,11 @@ public class MainMenuActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
+
+        Bundle arguments = getIntent().getExtras();
+
+        Toast.makeText(this, arguments.getString("profile_name"), Toast.LENGTH_LONG).show();
+        profile = new USM(arguments.getString("profile_name"), this);
 
         /*List<String> achiesStrings = new Vector<String>();
         for (int i = 0; i < profile.size(); ++i) {
@@ -57,7 +62,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.addAchie:
                         Intent intent = new Intent(MainMenuActivity.this, AddAchieActivity.class);
-                        //intent.putExtra("profile", profile);
+                        intent.putExtra("profile", profile);
                         startActivity(intent);
                         break;
                     case R.id.addToPlan:

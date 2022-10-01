@@ -22,7 +22,7 @@ import java.nio.charset.StandardCharsets;
 
 import ru.ikkui.achie.AddAchieActivity;
 
-public class USM {
+public class USM implements Serializable {
     private static final long serialVersionUID = 1L;
     public String state = "";
     private String name_;
@@ -283,7 +283,7 @@ public class USM {
                     profiles_list.createNewFile();
                 }
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(profiles_list, true)));
-                bufferedWriter.write(name_);
+                bufferedWriter.write(name_ + "\n");
                 bufferedWriter.flush();
                 bufferedWriter.close();
             } catch (IOException e) {

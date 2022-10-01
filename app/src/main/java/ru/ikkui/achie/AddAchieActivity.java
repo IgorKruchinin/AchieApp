@@ -36,7 +36,10 @@ public class AddAchieActivity extends AppCompatActivity {
 
     public void add(View view) {
         Bundle arguments = getIntent().getExtras();
-        USM profile = new USM("profile", this);
+        USM profile = null;
+        if (arguments.get("profile") instanceof USM) {
+            profile = (USM)arguments.get("profile");
+        }
         Toast toast = Toast.makeText(this, profile.state, Toast.LENGTH_LONG);
         toast.show();
         if (!profile.opened()) {
@@ -45,27 +48,19 @@ public class AddAchieActivity extends AppCompatActivity {
             profile.create_ssec("type");
             profile.create_ssec("measure");
             profile.create_isec("count");
-            toast = Toast.makeText(this, "Sections created", Toast.LENGTH_SHORT);
-            toast.show();
         }
         TextView achieDateFld = findViewById(R.id.achieDateFld);
         TextView achieObjectFld = findViewById(R.id.achieObjectFld);
         TextView achieTypeFld = findViewById(R.id.achieTypeFld);
         TextView achieMeasureFld = findViewById(R.id.achieMeasureFld);
         TextView achieCountFld = findViewById(R.id.achieCountFld);
-        toast = Toast.makeText(this, "TextViews found: " + achieDateFld.getText(), Toast.LENGTH_SHORT);
-        toast.show();
         profile.gets("date").add(achieDateFld.getText().toString());
         profile.gets("object").add(achieObjectFld.getText().toString());
         profile.gets("type").add(achieTypeFld.getText().toString());
         profile.gets("measure").add(achieMeasureFld.getText().toString());
         profile.geti("count").add(Integer.parseInt(achieCountFld.getText().toString()));
-        toast = Toast.makeText(this, "Information added", Toast.LENGTH_SHORT);
-        toast.show();
         profile.to_file(this);
-        toast = Toast.makeText(this, "Completed", Toast.LENGTH_SHORT);
-        toast.show();
-        //finish();
+        finish();
     }
 
 }

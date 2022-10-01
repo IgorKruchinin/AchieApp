@@ -8,12 +8,14 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import ru.ikkui.achie.USM.USM;
 import ru.ikkui.achie.databinding.ActivityAddProfBinding;
 
 public class AddProfActivity extends AppCompatActivity {
@@ -33,7 +35,10 @@ public class AddProfActivity extends AppCompatActivity {
 
     public void createProfile(View view) {
         // Creating USM profile
-        startActivity(new Intent(this, MainMenuActivity.class));
+        TextView profileName = findViewById(R.id.profNameFld);
+        Intent intent = new Intent(this, MainMenuActivity.class);
+        intent.putExtra("profile_name", profileName.getText().toString());
+        startActivity(intent);
     }
 
 }
