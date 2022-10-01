@@ -1,10 +1,12 @@
 package ru.ikkui.achie.USM;
 import android.content.Context;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,8 +20,11 @@ import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.nio.charset.StandardCharsets;
 
+import ru.ikkui.achie.AddAchieActivity;
+
 public class USM {
     private static final long serialVersionUID = 1L;
+    public String state = "";
     private String name_;
     private String program_name_ = "";
     //private Map<String, IntSection> isecs_;
@@ -240,14 +245,14 @@ public class USM {
 
     public USM(final String name, Context context) {
         name_ = name;
-        /* // Path path = Paths.get("profiles", File.separator,  name_ + ".uto");
+         // Path path = Paths.get("profiles", File.separator,  name_ + ".uto");
         //isecs_ = new HashMap<>();
         //ssecs_ = new HashMap<>();
         secs_ = new TreeMap<>();
         formats = new Vector<>();
-        try {
+        File uto = new  File (context.getExternalFilesDir(null), "profiles/" + name_ + ".uto");
+        try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(uto)))) {
             is_opened = true;
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(context.openFileInput("profiles/" + name_ + ".uto")));
             String s;
             while ((s = bufferedReader.readLine()) != null) {
                 if (s.charAt(0) == 'i') {
@@ -262,7 +267,6 @@ public class USM {
                     formats.add(1);
                 }
             }
-            bufferedReader.close();
         } catch (IOException | USMSectionException e) {
             is_opened = false;
         }
@@ -270,14 +274,23 @@ public class USM {
             try {
                 //Files.createFile(path);
                 //Files.write(Paths.get("profiles", File.separator, "profiles_list.txt"), name_.getBytes(), StandardOpenOption.APPEND);
-                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(context.openFileOutput("profiles" + File.separator +"profiles_list.txt", Context.MODE_APPEND)));
+                File profiles_directory = new File(context.getExternalFilesDir(null), "profiles");
+                File profiles_list = new File(context.getExternalFilesDir(null), "profiles" + File.separator +"profiles_list.txt");
+                if (!profiles_directory.exists()) {
+                    profiles_directory.mkdirs();
+                }
+                if (!profiles_list.exists()) {
+                    profiles_list.createNewFile();
+                }
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(profiles_list, true)));
                 bufferedWriter.write(name_);
                 bufferedWriter.flush();
                 bufferedWriter.close();
             } catch (IOException e) {
-                System.exit(1);
+                //System.exit(1);
+                state = e.toString();
             }
-        }*/
+        }
     }
 
 
@@ -328,19 +341,19 @@ public class USM {
 
 
     public void to_file(Context context) {
-        Path path = Paths.get("profiles", File.separator, name_ + ".uto");
-        try {
-            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(context.openFileOutput(path.toString(), Context.MODE_PRIVATE)));
+        //Path path = Paths.get("profiles", File.separator, name_ + ".uto");
+        File uto = new File(context.getExternalFilesDir(null), "profiles" + File.separator + name_ + ".uto");
+        try(BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(uto)))) {
             StringBuilder text_buf = new StringBuilder();
-            for (Map.Entry<String, Section> entry: secs_.entrySet()) {
+            for (Map.Entry<String, Section> entry : secs_.entrySet()) {
                 if (entry.getValue() instanceof StringSection) {
                     text_buf.append("s<").append(entry.getKey()).append(">");
-                    for (String obj : ((StringSection)entry.getValue()).getObjects_()) {
+                    for (String obj : ((StringSection) entry.getValue()).getObjects_()) {
                         text_buf.append(obj).append("|<\\e>");
                     }
                 } else if (entry.getValue() instanceof IntSection) {
                     text_buf.append("i<").append(entry.getKey()).append(">");
-                    for (Integer obj: ((IntSection)entry.getValue()).getObjects_()) {
+                    for (Integer obj : ((IntSection) entry.getValue()).getObjects_()) {
                         text_buf.append(obj).append("|<\\e>");
                     }
                 }
@@ -349,8 +362,12 @@ public class USM {
             bufferedWriter.write(text_buf.toString());
             bufferedWriter.flush();
             bufferedWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException f) {
+            try {
+                uto.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }
