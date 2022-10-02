@@ -1,10 +1,11 @@
 package ru.ikkui.achie.USM;
+import java.io.Serializable;
 import java.util.Vector;
 
 import java.util.List;
 import java.util.Arrays;
 
-public class IntSection implements Section {
+public class IntSection implements Section, Serializable {
     private String name_;
     private final List<Integer> objects_;
     public IntSection(String name) {

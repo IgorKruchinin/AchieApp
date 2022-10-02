@@ -37,7 +37,8 @@ public class AddProfActivity extends AppCompatActivity {
         // Creating USM profile
         TextView profileName = findViewById(R.id.profNameFld);
         Intent intent = new Intent(this, MainMenuActivity.class);
-        intent.putExtra("profile_name", profileName.getText().toString());
+        USM profile = new USM(profileName.getText().toString(), this);
+        intent.putExtra("profile", profile);
         startActivity(intent);
     }
 

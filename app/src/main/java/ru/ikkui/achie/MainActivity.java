@@ -35,9 +35,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
+
+
         profiles = USM.get_profiles(this);
         RecyclerView rec = findViewById(R.id.profiles_list);
-        ProfileAdapter adapter = new ProfileAdapter(this, profiles);
+        ProfileAdapter.OnProfileClickListener profileClickListener = new ProfileAdapter.OnProfileClickListener() {
+            @Override
+            public void onProfileClick(USM profile, int position) {
+                Intent intent = new Intent(MainActivity.this, MainMenuActivity.class);
+                intent.putExtra("profile", profile);
+                startActivity(intent);
+            }
+        };
+        ProfileAdapter adapter = new ProfileAdapter(this, profiles, profileClickListener);
         Toast.makeText(this, String.valueOf(profiles.size()), Toast.LENGTH_SHORT).show();
         rec.setAdapter(adapter);
 

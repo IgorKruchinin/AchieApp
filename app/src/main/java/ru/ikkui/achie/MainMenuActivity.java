@@ -40,8 +40,8 @@ public class MainMenuActivity extends AppCompatActivity {
 
         Bundle arguments = getIntent().getExtras();
 
-        Toast.makeText(this, arguments.getString("profile_name"), Toast.LENGTH_LONG).show();
-        profile = new USM(arguments.getString("profile_name"), this);
+        profile = (USM)arguments.get("profile");
+        Toast.makeText(this, profile.get_name() + ": " + String.valueOf(profile.size()), Toast.LENGTH_SHORT).show();
 
         /*List<String> achiesStrings = new Vector<String>();
         for (int i = 0; i < profile.size(); ++i) {
