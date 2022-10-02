@@ -16,4 +16,5 @@
     <string name="title_activity_add_achie">Добавить достижение</string>
     <string name="title_activity_main_menu">Главная</string>
     <string name="title_activity_add_prof">Доступные профили</string>
+    <string name="name">Название</string>
 </resources>

@@ -408,20 +408,26 @@ public class USM implements Serializable {
     public final boolean opened() {
         return is_opened;
     }
-    public static List<USM> get_profiles() {
-        List<USM> profiles = new Vector<>();
-        Path path = Paths.get("profiles", File.separator,"profiles_list.txt");
+    public static ArrayList<USM> get_profiles(Context context) {
+        ArrayList<USM> profiles = new ArrayList<>();
         try {
-            for (String s : Files.readAllLines(path, StandardCharsets.UTF_8)) {
-                String[] s1 = s.split(":");
-                profiles.add(new USM(s1[0]));
+            File profiles_directory = new File(context.getExternalFilesDir(null), "profiles");
+            File profiles_list = new File(context.getExternalFilesDir(null), "profiles" + File.separator +"profiles_list.txt");
+            if (!profiles_directory.exists()) {
+                profiles_directory.mkdirs();
+            }
+            if (!profiles_list.exists()) {
+                profiles_list.createNewFile();
+            }
+            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(profiles_list)))) {
+                String s;
+                while ((s = bufferedReader.readLine()) != null) {
+                    String[] s1 = s.split(":");
+                    profiles.add(new USM(s1[0], context));
+                }
             }
         } catch (IOException e) {
-            try {
-                Files.createFile(path);
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
+            e.printStackTrace();
         }
         return profiles;
     }

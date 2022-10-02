@@ -36,10 +36,7 @@ public class AddAchieActivity extends AppCompatActivity {
 
     public void add(View view) {
         Bundle arguments = getIntent().getExtras();
-        USM profile = null;
-        if (arguments.get("profile") instanceof USM) {
-            profile = (USM)arguments.get("profile");
-        }
+        USM profile = (USM)arguments.get("profile");
         Toast toast = Toast.makeText(this, profile.state, Toast.LENGTH_LONG);
         toast.show();
         if (!profile.opened()) {
