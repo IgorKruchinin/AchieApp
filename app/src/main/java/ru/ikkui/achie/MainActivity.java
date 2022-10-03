@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         ProfileAdapter adapter = new ProfileAdapter(this, profiles, profileClickListener);
-        Toast.makeText(this, String.valueOf(profiles.size()), Toast.LENGTH_SHORT).show();
         rec.setAdapter(adapter);
 
     }

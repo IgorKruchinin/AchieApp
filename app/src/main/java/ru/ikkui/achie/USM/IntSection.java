@@ -1,5 +1,6 @@
 package ru.ikkui.achie.USM;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public class IntSection implements Section, Serializable {
     private final List<Integer> objects_;
     public IntSection(String name) {
         name_ = name;
-        objects_ = new Vector<>();
+        objects_ = new ArrayList<>();
     }
     public IntSection(String name, Integer[] vec) {
         name_ = name;

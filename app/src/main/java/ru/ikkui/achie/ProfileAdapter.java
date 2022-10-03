@@ -1,7 +1,6 @@
 package ru.ikkui.achie;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
     }
     @Override
     public ProfileAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int ViewType) {
-        View view = inflater.inflate(R.layout.list_achies, parent, false);
+        View view = inflater.inflate(R.layout.list_profiles, parent, false);
         return new ViewHolder(view);
     }
     @Override

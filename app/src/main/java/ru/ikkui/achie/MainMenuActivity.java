@@ -4,19 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.PopupMenu;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.List;
-import java.util.Vector;
 
 import ru.ikkui.achie.databinding.ActivityMainMenuBinding;
 
@@ -41,7 +35,27 @@ public class MainMenuActivity extends AppCompatActivity {
         Bundle arguments = getIntent().getExtras();
 
         profile = (USM)arguments.get("profile");
-        Toast.makeText(this, profile.get_name() + ": " + String.valueOf(profile.size()), Toast.LENGTH_SHORT).show();
+
+        if (profile != null) {
+
+            USMAdapter.OnAchieClickListener achieClickListener = new USMAdapter.OnAchieClickListener() {
+                @Override
+                public void onAchieClick(USM profile, int position) {
+                    Intent intent = new Intent(MainMenuActivity.this, ViewAchieActivity.class);
+                    intent.putExtra("profile", profile);
+                    intent.putExtra("index", position);
+                    startActivity(intent);
+                }
+            };
+
+            RecyclerView recyclerView = findViewById(R.id.achies_list);
+
+            USMAdapter adapter = new USMAdapter(this, profile,achieClickListener);
+
+
+
+            recyclerView.setAdapter(adapter);
+        }
 
         /*List<String> achiesStrings = new Vector<String>();
         for (int i = 0; i < profile.size(); ++i) {

@@ -16,4 +16,5 @@
     <string name="title_activity_main_menu">Main</string>
     <string name="title_activity_add_prof">Add profile</string>
     <string name="name">Name</string>
+    <string name="of">of</string>
 </resources>
