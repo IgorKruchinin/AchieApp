@@ -29,7 +29,8 @@ import ru.ikkui.achie.databinding.ActivityViewFullImageBinding;
  */
 public class ViewFullImageActivity extends AppCompatActivity {
 
-    ImageView photo;
+    // ImageView photo;
+    // Bitmap bitmap;
 
     /**
      * Whether or not the system UI should be auto-hidden after
@@ -134,9 +135,22 @@ public class ViewFullImageActivity extends AppCompatActivity {
             }
         });
 
-        photo = findViewById(R.id.viewFullImage);
-        
+        // new AsyncImageLoad(this);
+        // bindImage(image);
+        // ImageDecoder.Source imgSrc = ImageDecoder.createSource(getContentResolver(), image);
 
+        //thread.run();
+        /*runOnUiThread(() ->
+        {
+            ImageView photo = findViewById(R.id.viewFullImage);
+            ImageDecoder.Source imgSrc = ImageDecoder.createSource(getContentResolver(), image);
+            Bitmap bitmap = null;
+            try {
+                ImageDecoder.decodeBitmap(imgSrc);
+            } catch (IOException e) {
+            }
+            photo.setImageBitmap(bitmap);
+        });*/
 
     }
 
@@ -169,6 +183,25 @@ public class ViewFullImageActivity extends AppCompatActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+
+        Bundle arguments = getIntent().getExtras();
+        Uri image = (Uri) arguments.get("photo");
+        ImageView photo = findViewById(R.id.viewFullImage);
+        ImageDecoder.Source imgSrc = ImageDecoder.createSource(getContentResolver(), image);
+
+        Thread thread = new Thread(() -> {
+            runOnUiThread(() ->
+            {
+                Bitmap bitmap = null;
+                try {
+                    bitmap = ImageDecoder.decodeBitmap(imgSrc);
+                    photo.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                }
+            });
+        });
+
+        thread.start();
 
         // Trigger the initial hide() shortly after the activity has been
         // created, to briefly hint to the user that UI controls
@@ -227,12 +260,14 @@ public class ViewFullImageActivity extends AppCompatActivity {
         finish();
     }
 
-    public void bindImage(Uri image, ImageView viewPhoto) {
-
-        //try {
-            //viewPhoto.setImageBitmap(bitmap);
-        //} catch (IOException e) {
-
-        //}
+    public void bindImage(Uri image) {
+        ImageView photo = findViewById(R.id.viewFullImage);
+        ImageDecoder.Source imgSrc = ImageDecoder.createSource(getContentResolver(), image);
+        Bitmap bitmap = null;
+        try {
+            ImageDecoder.decodeBitmap(imgSrc);
+        } catch (IOException e) {
+        }
+        photo.setImageBitmap(bitmap);
     }
 }

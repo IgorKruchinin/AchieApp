@@ -57,10 +57,22 @@ public class ViewAchieActivity extends AppCompatActivity {
                     dir.mkdirs();
                     img.createNewFile();
                     image = Uri.fromFile(img);
+                    ImageDecoder.Source imgSrc = ImageDecoder.createSource(this.getContentResolver(), image);
+
                     Thread thread = new Thread(() -> {
-                        bindImage(image, viewPhoto);
+                        runOnUiThread(() ->
+                        {
+                            Bitmap bitmap = null;
+                            try {
+                                bitmap = ImageDecoder.decodeBitmap(imgSrc);
+                                viewPhoto.setImageBitmap(bitmap);
+                            } catch (IOException e) {
+                            }
+                        });
                     });
+
                     thread.start();
+
                 } catch (IOException ignore) {}
             }
 
