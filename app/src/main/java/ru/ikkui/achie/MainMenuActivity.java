@@ -2,6 +2,7 @@ package ru.ikkui.achie;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -12,9 +13,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.recyclerview.widget.RecyclerView;
 
-import ru.ikkui.achie.databinding.ActivityMainMenuBinding;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 
-import ru.ikkui.achie.USM.*;
+import ru.ikkui.achie.USM.IntSection;
+import ru.ikkui.achie.USM.Section;
+import ru.ikkui.achie.USM.StringSection;
+import ru.ikkui.achie.USM.USM;
+import ru.ikkui.achie.databinding.ActivityMainMenuBinding;
 
 public class MainMenuActivity extends AppCompatActivity {
 
@@ -55,6 +64,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
 
             recyclerView.setAdapter(adapter);
+
         }
 
         /*List<String> achiesStrings = new Vector<String>();
@@ -88,6 +98,46 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
         menu.show();
+    }
+
+    public void export(View view) {
+        to_csv();
+    }
+
+    public void to_csv() {
+        File csv = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), profile.get_name() + ".csv");
+        try {
+            if (!csv.exists()) {
+                csv.createNewFile();
+            }
+            BufferedWriter csvWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(csv, false)));
+            int size = 0;
+            for (Section s: profile.getAll()) {
+                size = s.size();
+                csvWriter.write(s.get_name());
+                csvWriter.write(",");
+                //if (s.size() < min_size) {
+                    //min_size = s.size();
+                //}
+            }
+            csvWriter.write("\n");
+            for (int index = 0; index < size; ++index) {
+                for (Section s : profile.getAll()) {
+                    if (s instanceof StringSection) {
+                        csvWriter.write(((StringSection)s).get(index));
+                    } if (s instanceof IntSection) {
+                        csvWriter.write(String.valueOf(((IntSection)s).get(index)));
+                    }
+                    csvWriter.write(",");
+                }
+                csvWriter.write("\n");
+            }
+            csvWriter.flush();
+            csvWriter.close();
+            Toast.makeText(this, csv.getPath().toString(), Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            Toast.makeText(this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

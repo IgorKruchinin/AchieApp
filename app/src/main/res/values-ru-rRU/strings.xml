@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Achie</string>
+    <string name="available_profiles">Доступные профили</string>
     <string name="action_settings">Параметры</string>
     <string name="profile_name">Имя профиля</string>
     <string name="create">Создать</string>
@@ -15,7 +16,12 @@
     <string name="title_activity_view_achie">Просмотр достижения</string>
     <string name="title_activity_add_achie">Добавить достижение</string>
     <string name="title_activity_main_menu">Главная</string>
-    <string name="title_activity_add_prof">Доступные профили</string>
+    <string name="title_activity_add_prof">Добавления профиля</string>
     <string name="name">Название</string>
     <string name="of">из</string>
+    <string name="export">Экспорт</string>
+    <string name="title_activity_planning">Планирование достижения</string>
+    <string name="load_image">Загрузить изображение</string>
+    <string name="title_activity_view_full_image">Просмотр изображения</string>
+    <string name="back_btn">Назад</string>
 </resources>

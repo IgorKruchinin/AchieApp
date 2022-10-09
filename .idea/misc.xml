@@ -4,22 +4,26 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2375" />
+        <entry key="app/src/main/res/drawable/foreground.xml" value="0.125" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2375" />
+        <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.126" />
         <entry key="app/src/main/res/drawable/listachies.xml" value="0.125" />
         <entry key="app/src/main/res/layout/activity_add_achie.xml" value="0.24864130434782608" />
         <entry key="app/src/main/res/layout/activity_add_prof.xml" value="0.24864130434782608" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.24864130434782608" />
         <entry key="app/src/main/res/layout/activity_main_menu.xml" value="0.24864130434782608" />
         <entry key="app/src/main/res/layout/activity_view_achie.xml" value="0.24864130434782608" />
-        <entry key="app/src/main/res/layout/content_add_achie.xml" value="0.67" />
+        <entry key="app/src/main/res/layout/activity_view_full_image.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/content_add_achie.xml" value="0.33" />
         <entry key="app/src/main/res/layout/content_add_prof.xml" value="0.24864130434782608" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.18" />
         <entry key="app/src/main/res/layout/content_main_menu.xml" value="0.24864130434782608" />
+        <entry key="app/src/main/res/layout/content_planning.xml" value="0.11770833333333333" />
         <entry key="app/src/main/res/layout/content_view_achie.xml" value="0.33" />
         <entry key="app/src/main/res/layout/example.xml" value="0.24864130434782608" />
         <entry key="app/src/main/res/layout/fragment_first.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_second.xml" value="0.24864130434782608" />
-        <entry key="app/src/main/res/layout/list_achies.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/list_achies.xml" value="0.6711990111248455" />
         <entry key="app/src/main/res/layout/list_profiles.xml" value="0.33" />
         <entry key="app/src/main/res/menu/menu_main.xml" value="0.11510416666666666" />
         <entry key="app/src/main/res/menu/popup_menu.xml" value="0.11510416666666666" />

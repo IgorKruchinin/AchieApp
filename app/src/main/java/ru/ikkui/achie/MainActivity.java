@@ -2,23 +2,18 @@ package ru.ikkui.achie;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.navigation.ui.AppBarConfiguration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import android.view.View;
-
-import androidx.navigation.ui.AppBarConfiguration;
-
 import ru.ikkui.achie.USM.USM;
 import ru.ikkui.achie.databinding.ActivityMainBinding;
-
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
