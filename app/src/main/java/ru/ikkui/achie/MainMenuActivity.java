@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.ui.AppBarConfiguration;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.BufferedWriter;
@@ -18,6 +19,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import ru.ikkui.achie.USM.IntSection;
 import ru.ikkui.achie.USM.Section;
@@ -31,6 +35,7 @@ public class MainMenuActivity extends AppCompatActivity {
     private ActivityMainMenuBinding binding;
     private Button addAchieBtn;
     private USM profile;
+    private USMAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +48,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
         Bundle arguments = getIntent().getExtras();
 
-        profile = (USM)arguments.get("profile");
+        profile = (USM) arguments.get("profile");
 
         if (profile != null) {
 
@@ -55,26 +60,58 @@ public class MainMenuActivity extends AppCompatActivity {
                     intent.putExtra("index", position);
                     startActivity(intent);
                 }
+
+                @Override
+                public void onAchieLongClick(View view, USM profile, int position) {
+                    PopupMenu menu = new PopupMenu(MainMenuActivity.this, view);
+                    menu.getMenuInflater().inflate(R.menu.achie_popup_menu, menu.getMenu());
+                    menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            switch (menuItem.getItemId()) {
+                                case R.id.deleteAchie:
+                                    profile.geti("date").remove(position);
+                                    profile.gets("object").remove(position);
+                                    profile.gets("type").remove(position);
+                                    profile.gets("measure").remove(position);
+                                    profile.geti("count").remove(position);
+                                    profile.gets("photo").remove(position);
+                                    profile.to_file(MainMenuActivity.this);
+                                    adapter.notifyDataSetChanged();
+                            }
+                            return true;
+                        }
+                    });
+                    menu.show();
+                }
             };
 
             RecyclerView recyclerView = findViewById(R.id.achies_list);
 
-            USMAdapter adapter = new USMAdapter(this, profile,achieClickListener);
+            adapter = new USMAdapter(this, profile, achieClickListener);
 
-
+            DividerItemDecoration divider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
 
             recyclerView.setAdapter(adapter);
+            recyclerView.addItemDecoration(divider);
 
         }
 
+
         /*List<String> achiesStrings = new Vector<String>();
         for (int i = 0; i < profile.size(); ++i) {
-            achiesStrings.add(profile.gets("date").get(i) + " " + profile.gets("object").get(i));
+            achiesStrings.add(profile.geti("date").get(i) + " " + profile.gets("object").get(i));
         }
         Spinner achiesList = findViewById(R.id.listAchies);
         ArrayAdapter arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, achiesStrings);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         achiesList.setAdapter(arrayAdapter);*/
+    }
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        adapter.notifyDataSetChanged();
     }
 
     public void addAchie(View v) {

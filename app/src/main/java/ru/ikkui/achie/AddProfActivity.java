@@ -31,7 +31,7 @@ public class AddProfActivity extends AppCompatActivity {
         TextView profileName = findViewById(R.id.profNameFld);
         Intent intent = new Intent(this, MainMenuActivity.class);
         USM profile = new USM(profileName.getText().toString(), this);
-        profile.create_ssec("date");
+        profile.create_isec("date");
         profile.create_ssec("object");
         profile.create_ssec("type");
         profile.create_ssec("measure");

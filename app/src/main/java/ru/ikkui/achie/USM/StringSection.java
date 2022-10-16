@@ -4,13 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Vector;
 
 public class StringSection implements Section, Serializable {
     private String name_;
     private final List<String> objects_;
     public StringSection(String name) {
         name_ = name;
-        objects_ = new ArrayList<>();
+        objects_ = new Vector<>();
     }
     public int get_format() {
         return 1;
@@ -24,6 +25,12 @@ public class StringSection implements Section, Serializable {
     }
     public void add(String object) {
         objects_.add(object);
+    }
+    public void remove(int index) {
+        objects_.remove(index);
+    }
+    public void edit(int index, String newObject) {
+        objects_.set(index, newObject);
     }
     public int size() {
         return objects_.size();

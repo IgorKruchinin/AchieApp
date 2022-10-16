@@ -14,6 +14,11 @@ import androidx.navigation.ui.AppBarConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import ru.ikkui.achie.USM.USM;
 import ru.ikkui.achie.databinding.ActivityViewAchieBinding;
@@ -44,8 +49,11 @@ public class ViewAchieActivity extends AppCompatActivity {
         TextView viewCount = findViewById(R.id.viewCount);
         ImageView viewPhoto = findViewById(R.id.viewPhoto);
 
-        if (index < profile.gets("date").size()) {
-            viewDate.setText(profile.gets("date").get(index));
+        DateFormat dateFormat = SimpleDateFormat.getDateInstance();
+
+        if (index < profile.geti("date").size()) {
+            Date date = new Date(profile.geti("date").get(index));
+            viewDate.setText(dateFormat.format(date));
             viewObject.setText(profile.gets("object").get(index));
             viewType.setText(profile.gets("type").get(index));
             viewCount.setText(String.valueOf(profile.geti("count").get(index)) + " " + profile.gets("measure").get(index));

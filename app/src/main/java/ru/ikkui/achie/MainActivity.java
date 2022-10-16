@@ -8,6 +8,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.ui.AppBarConfiguration;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import ru.ikkui.achie.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<USM> profiles;
+    ProfileAdapter adapter;
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
@@ -40,11 +42,19 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, MainMenuActivity.class);
                 intent.putExtra("profile", profile);
                 startActivity(intent);
+                adapter.notifyItemChanged(position);
             }
         };
-        ProfileAdapter adapter = new ProfileAdapter(this, profiles, profileClickListener);
+        adapter = new ProfileAdapter(this, profiles, profileClickListener);
+        DividerItemDecoration divider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         rec.setAdapter(adapter);
+        rec.addItemDecoration(divider);
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 
     @Override

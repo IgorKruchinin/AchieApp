@@ -4,10 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import ru.ikkui.achie.USM.USM;
@@ -15,14 +18,17 @@ import ru.ikkui.achie.USM.USM;
 public class USMAdapter extends RecyclerView.Adapter<USMAdapter.ViewHolder>{
     private final LayoutInflater inflater;
     private final USM profile;
-    private final List<String> dates;
+    private final List<Long> dates;
     private final List<String> objects;
     private final List<String> measures;
-    private final List<Integer> counts;
+    private final List<Long> counts;
 
     interface OnAchieClickListener {
         void onAchieClick(USM profile, int position);
+        void onAchieLongClick(View view, USM profile, int position);
     }
+
+
 
     private final USMAdapter.OnAchieClickListener onClickListener;
 
@@ -30,7 +36,7 @@ public class USMAdapter extends RecyclerView.Adapter<USMAdapter.ViewHolder>{
     USMAdapter(Context context, USM profile, OnAchieClickListener onClickListener) {
         this.onClickListener = onClickListener;
         this.profile = profile;
-        this.dates = this.profile.gets("date").getObjects_();
+        this.dates = this.profile.geti("date").getObjects_();
         this.objects = this.profile.gets("object").getObjects_();
         this.measures = this.profile.gets("measure").getObjects_();
         this.counts = this.profile.geti("count").getObjects_();
@@ -44,13 +50,21 @@ public class USMAdapter extends RecyclerView.Adapter<USMAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(USMAdapter.ViewHolder holder, int position) {
         if (dates.size() > 0) {
-            holder.date.setText(dates.get(position));
+            java.util.Date date = new java.util.Date(dates.get(position));
+            DateFormat dateFormat = SimpleDateFormat.getDateInstance();
+            holder.date.setText(dateFormat.format(date));
             holder.object.setText(objects.get(position));
-            holder.count.setText(String.valueOf(counts.get(position)) +  " " + measures.get(position));
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onClickListener.onAchieClick(profile, holder.getAdapterPosition());
+                }
+            });
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    onClickListener.onAchieLongClick(holder.itemView, profile, holder.getAdapterPosition());
+                    return true;
                 }
             });
         }
@@ -62,12 +76,10 @@ public class USMAdapter extends RecyclerView.Adapter<USMAdapter.ViewHolder>{
     public static class ViewHolder extends RecyclerView.ViewHolder {
         final TextView date;
         final TextView object;
-        final TextView count;
         ViewHolder(View view) {
             super(view);
             date = view.findViewById(R.id.item_achie_date);
             object = view.findViewById(R.id.item_achie_object);
-            count = view.findViewById(R.id.item_achie_count);
         }
     }
 }

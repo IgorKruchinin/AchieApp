@@ -16,7 +16,7 @@
     <string name="title_activity_view_achie">Просмотр достижения</string>
     <string name="title_activity_add_achie">Добавить достижение</string>
     <string name="title_activity_main_menu">Главная</string>
-    <string name="title_activity_add_prof">Добавления профиля</string>
+    <string name="title_activity_add_prof">Добавление профиля</string>
     <string name="name">Название</string>
     <string name="of">из</string>
     <string name="export">Экспорт</string>
@@ -24,4 +24,5 @@
     <string name="load_image">Загрузить изображение</string>
     <string name="title_activity_view_full_image">Просмотр изображения</string>
     <string name="back_btn">Назад</string>
+    <string name="delete_achie">Удалить достижение</string>
 </resources>

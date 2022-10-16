@@ -326,7 +326,7 @@ public class USM implements Serializable {
                     }
                 } else if (entry.getValue() instanceof IntSection) {
                     text_buf.append("i<").append(entry.getKey()).append(">");
-                    for (Integer obj: ((IntSection)entry.getValue()).getObjects_()) {
+                    for (Long obj: ((IntSection)entry.getValue()).getObjects_()) {
                         text_buf.append(obj).append("|<\\e>");
                     }
                 }
@@ -356,7 +356,7 @@ public class USM implements Serializable {
                     }
                 } else if (entry.getValue() instanceof IntSection) {
                     text_buf.append("i<").append(entry.getKey()).append(">");
-                    for (Integer obj : ((IntSection) entry.getValue()).getObjects_()) {
+                    for (Long obj : ((IntSection) entry.getValue()).getObjects_()) {
                         text_buf.append(obj).append("|<\\e>");
                     }
                 }

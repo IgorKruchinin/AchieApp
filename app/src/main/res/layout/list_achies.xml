@@ -4,8 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/achie_list_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:backgroundTintMode="multiply">
+    android:layout_height="32dp"
+    android:background="?attr/selectableItemBackground"
+    android:backgroundTintMode="multiply"
+    android:longClickable="true"
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/item_achie_date"
@@ -15,7 +18,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/date"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="10sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,20 +31,8 @@
         android:fontFamily="sans-serif-condensed"
         android:text="@string/object"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="10sp"
+        android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/item_achie_date"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/item_achie_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:text="@string/count"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="10sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View

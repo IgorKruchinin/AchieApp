@@ -4,15 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/profile_list_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground">
 
     <TextView
         android:id="@+id/item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="serif"
         android:text="@string/name"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="16sp"
+        app:barrierAllowsGoneWidgets="false"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
