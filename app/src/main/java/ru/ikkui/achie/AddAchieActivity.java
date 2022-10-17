@@ -1,12 +1,10 @@
 package ru.ikkui.achie;
 
 import android.app.DatePickerDialog;
-import android.icu.text.DateTimePatternGenerator;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
-import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +24,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -39,6 +38,15 @@ public class AddAchieActivity extends AppCompatActivity {
     DatePickerDialog datePicker;
     DateFormat dateFormat;
     TextView achieDateFld;
+
+    TextView achieObjectFld;
+    List<String> achieObject;
+    TextView achieTypeFld;
+    List<String> achieType;
+    TextView achieMeasureFld;
+    List<String> achieMeasure;
+    TextView achieCountFld;
+
     private String imagePath = "";
     private AppBarConfiguration appBarConfiguration;
     private ActivityAddAchieBinding binding;
@@ -47,7 +55,7 @@ public class AddAchieActivity extends AppCompatActivity {
         @Override
         public void onActivityResult(Uri uri) {
             File from =  new File(uri.getPath());
-            int count = 0;
+            int count;
             try {
                 count = profile.gets("photo").size();
             } catch (NullPointerException e) {
@@ -64,7 +72,7 @@ public class AddAchieActivity extends AppCompatActivity {
                 OutputStream output = new FileOutputStream(to);
 
                 byte[] buffer = new byte[1024];
-                int length = 0;
+                int length;
                 while ((length = input.read(buffer)) > 0) {
                     output.write(buffer, 0, length);
                 }
@@ -112,6 +120,17 @@ public class AddAchieActivity extends AppCompatActivity {
             }
         });
 
+        achieObjectFld = findViewById(R.id.achieObjectFld);
+        achieObject  = profile.gets("object").getObjects_();
+        achieObjectFld.setAutofillHints(achieObject.toArray(new String[achieObject.size()]));
+        achieTypeFld = findViewById(R.id.achieTypeFld);
+        achieType = profile.gets("type").getObjects_();
+        achieTypeFld.setAutofillHints(achieType.toArray(new String[achieType.size()]));
+        achieMeasureFld = findViewById(R.id.achieMeasureFld);
+        achieMeasure = profile.gets("measure").getObjects_();
+        achieMeasureFld.setAutofillHints(achieMeasure.toArray(new String[achieMeasure.size()]));
+        achieCountFld = findViewById(R.id.achieCountFld);
+
     }
 
     public void add(View view) {
@@ -125,10 +144,7 @@ public class AddAchieActivity extends AppCompatActivity {
             profile.create_isec("count");
             profile.create_ssec("photo");
         }
-        TextView achieObjectFld = findViewById(R.id.achieObjectFld);
-        TextView achieTypeFld = findViewById(R.id.achieTypeFld);
-        TextView achieMeasureFld = findViewById(R.id.achieMeasureFld);
-        TextView achieCountFld = findViewById(R.id.achieCountFld);
+
 
         profile.geti("date").add(date.getTime());
         profile.gets("object").add(achieObjectFld.getText().toString());
