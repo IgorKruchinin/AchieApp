@@ -25,4 +25,7 @@
     <string name="title_activity_view_full_image">Просмотр изображения</string>
     <string name="back_btn">Назад</string>
     <string name="delete_achie">Удалить достижение</string>
+    <string name="title_activity_achie_edit">Редактирование достижения</string>
+    <string name="edit">Изменить</string>
+    <string name="edit_achie">Редактировать достижение</string>
 </resources>

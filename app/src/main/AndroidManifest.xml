@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="ru.ikkui.achie">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
@@ -16,6 +15,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Achie"
         tools:targetApi="30">
+        <activity
+            android:name=".AchieEditActivity"
+            android:exported="false"
+            android:label="@string/title_activity_achie_edit"
+            android:theme="@style/Theme.Achie.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".ViewFullImageActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

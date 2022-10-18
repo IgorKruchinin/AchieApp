@@ -24,4 +24,7 @@
     <string name="title_activity_view_full_image">View image</string>
     <string name="back_btn">Back</string>
     <string name="delete_achie">Delete Achie</string>
+    <string name="title_activity_achie_edit">AchieEditActivity</string>
+    <string name="edit">Edit</string>
+    <string name="edit_achie">Edit Achie</string>
 </resources>

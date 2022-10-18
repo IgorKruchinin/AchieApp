@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.PopupMenu;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -69,6 +70,12 @@ public class MainMenuActivity extends AppCompatActivity {
                         @Override
                         public boolean onMenuItemClick(MenuItem menuItem) {
                             switch (menuItem.getItemId()) {
+                                case R.id.edit_achie:
+                                    Intent editIntent = new Intent(MainMenuActivity.this, AchieEditActivity.class);
+                                    editIntent.putExtra("profile", profile);
+                                    editIntent.putExtra("index", position);
+                                    startActivity(editIntent);
+                                    break;
                                 case R.id.deleteAchie:
                                     profile.geti("date").remove(position);
                                     profile.gets("object").remove(position);
@@ -78,6 +85,7 @@ public class MainMenuActivity extends AppCompatActivity {
                                     profile.gets("photo").remove(position);
                                     profile.to_file(MainMenuActivity.this);
                                     adapter.notifyDataSetChanged();
+                                    break;
                             }
                             return true;
                         }

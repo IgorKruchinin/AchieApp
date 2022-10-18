@@ -3,6 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/edit_achie"
+        android:title="@string/edit_achie" />
+    <item
         android:id="@+id/deleteAchie"
         android:title="@string/delete_achie" />
 </menu>
