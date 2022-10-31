@@ -739,6 +739,7 @@ public class MainMenuActivity extends AppCompatActivity {
         if (profileWereNullFlag) {
             getDefaultProfile();
             init();
+        }
             PopupMenu menu = new PopupMenu(MainMenuActivity.this, v);
             menu.getMenuInflater().inflate(R.menu.popup_menu, menu.getMenu());
             menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -765,7 +766,6 @@ public class MainMenuActivity extends AppCompatActivity {
                 }
             });
             menu.show();
-        }
     }
 
     public void export(View view) {
