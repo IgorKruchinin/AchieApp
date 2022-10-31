@@ -14,7 +14,7 @@ import ru.ikkui.achie.USM.USM;
 
 public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHolder>{
     private final LayoutInflater inflater;
-    private final List<USM> profiles;
+    private List<USM> profiles;
 
     interface OnProfileClickListener {
         void onProfileClick(USM profile, int position);

@@ -27,4 +27,10 @@
     <string name="title_activity_achie_edit">AchieEditActivity</string>
     <string name="edit">Edit</string>
     <string name="edit_achie">Edit Achie</string>
+    <string name="create_new_default_profile_message">Default profile not found! Please, create a new, or just enter name of existing profile to make it default</string>
+    <string name="select_profile">Select profile</string>
+    <string name="add_profile">Add profile</string>
+    <string name="new_profile_message">Create a new profile:</string>
+    <string name="make_default">Make this profile as default</string>
+    <string name="add_achie_message">Enter the date, name, description and also measure and count of Achie (if it has):</string>
 </resources>

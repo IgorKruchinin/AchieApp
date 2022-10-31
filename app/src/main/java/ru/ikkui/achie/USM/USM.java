@@ -1,7 +1,10 @@
 package ru.ikkui.achie.USM;
 
 import android.content.Context;
+import android.os.Environment;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -12,18 +15,26 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.Vector;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 public class USM implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -35,6 +46,16 @@ public class USM implements Serializable {
     private SortedMap<String, Section> secs_;
     private List<Integer> formats;
     private boolean is_opened;
+
+    public void reset(final USM anotherProfile) {
+        name_ = anotherProfile.get_name();
+        formats = anotherProfile.get_formats();
+        secs_ = anotherProfile.secs_;
+        is_opened = anotherProfile.opened();
+        program_name_ = anotherProfile.get_program_name();
+        state = "";
+    }
+
     public USM(final String name) {
         name_ = name;
         Path path = Paths.get("profiles", File.separator,  name_ + ".uto");
@@ -293,6 +314,68 @@ public class USM implements Serializable {
                 //System.exit(1);
                 state = e.toString();
             }
+        }
+    }
+
+    public File to_one_archive(Context context, final String filename, final String typename, int index, final String... resNames) throws IOException {
+        try {
+
+            Path path = Paths.get(context.getExternalFilesDir(null) + File.separator + "profiles", File.separator, name_ + ".uos");
+            try (final OutputStream outputStream = Files.newOutputStream(path)) {
+                StringBuilder text_buf = new StringBuilder();
+                for (Map.Entry<String, Section> entry: secs_.entrySet()) {
+                    if (entry.getValue() instanceof StringSection) {
+                        text_buf.append(entry.getKey()).append(":");
+                        text_buf.append(((StringSection)entry.getValue()).get(index));
+                    } else if (entry.getValue() instanceof IntSection) {
+                        text_buf.append(entry.getKey()).append(":");
+                        text_buf.append(String.valueOf(((IntSection)entry.getValue()).get(index)));
+                    }
+                    text_buf.append("\n");
+                }
+                outputStream.write(text_buf.toString().getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+
+            BufferedInputStream o = null;
+            File archive = new File(context.getFilesDir() + File.separator + filename + "." + typename);
+            FileOutputStream to =  new FileOutputStream(archive);
+            ZipOutputStream output = new ZipOutputStream(new BufferedOutputStream(to));
+            byte[] data = new byte[512];
+
+            FileInputStream uosInput = new FileInputStream(path.toString());
+            o = new BufferedInputStream(uosInput, 512);
+            ZipEntry uosEntry = new ZipEntry(path.getFileName().toString());
+            output.putNextEntry(uosEntry);
+            int k = 0;
+            while((k = o.read(data, 0, 512)) != -1) {
+                output.write(data, 0, k);
+            }
+            o.close();
+            for (int i = 0; i < resNames.length; ++i) {
+                System.out.println(resNames[i]);
+                File inputFile = new File(context.getExternalFilesDir(null) + File.separator + "profiles" + File.separator + "res"+ File.separator + name_ + File.separator + resNames[i]);
+                if (inputFile.exists() && inputFile.isFile()) {
+                    FileInputStream inputStream = new FileInputStream(inputFile);
+                    o = new BufferedInputStream(inputStream, 512);
+                    ZipEntry entry = new ZipEntry("res" + File.separator + resNames[i]);
+                    output.putNextEntry(entry);
+                    int count = 0;
+                    while ((count = o.read(data, 0, 512)) != -1) {
+                        output.write(data, 0, count);
+                    }
+                    o.close();
+                }
+            }
+            output.close();
+            return archive;
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
         }
     }
 

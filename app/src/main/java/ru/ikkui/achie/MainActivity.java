@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         profiles = USM.get_profiles(this);
-        RecyclerView rec = findViewById(R.id.profiles_list);
+        RecyclerView rec = findViewById(R.id.select_profiles);
         ProfileAdapter.OnProfileClickListener profileClickListener = new ProfileAdapter.OnProfileClickListener() {
             @Override
             public void onProfileClick(USM profile, int position) {

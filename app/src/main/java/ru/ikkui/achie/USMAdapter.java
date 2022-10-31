@@ -17,11 +17,11 @@ import ru.ikkui.achie.USM.USM;
 
 public class USMAdapter extends RecyclerView.Adapter<USMAdapter.ViewHolder>{
     private final LayoutInflater inflater;
-    private final USM profile;
-    private final List<Long> dates;
-    private final List<String> objects;
-    private final List<String> measures;
-    private final List<Long> counts;
+    private USM profile;
+    private List<Long> dates;
+    private List<String> objects;
+    private List<String> measures;
+    private List<Long> counts;
 
     interface OnAchieClickListener {
         void onAchieClick(USM profile, int position);
@@ -41,6 +41,14 @@ public class USMAdapter extends RecyclerView.Adapter<USMAdapter.ViewHolder>{
         this.measures = this.profile.gets("measure").getObjects_();
         this.counts = this.profile.geti("count").getObjects_();
         this.inflater = LayoutInflater.from(context);
+    }
+    public void reset(USM anotherProfile) {
+        profile = anotherProfile;
+        dates = this.profile.geti("date").getObjects_();
+        objects = this.profile.gets("object").getObjects_();
+        measures = this.profile.gets("measure").getObjects_();
+        counts = this.profile.geti("count").getObjects_();
+        notifyDataSetChanged();
     }
     @Override
     public USMAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int ViewType) {

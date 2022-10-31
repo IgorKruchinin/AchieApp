@@ -28,4 +28,10 @@
     <string name="title_activity_achie_edit">Редактирование достижения</string>
     <string name="edit">Изменить</string>
     <string name="edit_achie">Редактировать достижение</string>
+    <string name="create_new_default_profile_message">Профиль по умолчанию не найден! Создайте новый или введите имя существующего профиля, чтобы сделать его профилем по-умолчанию</string>
+    <string name="select_profile">Выбрать профиль</string>
+    <string name="add_profile">Добавить профиль</string>
+    <string name="new_profile_message">Создайте новый профиль:</string>
+    <string name="make_default">Сделать профилем по-умолчанию</string>
+    <string name="add_achie_message">Введите дату, имя, описание достижения, а также меру и количество (если есть):</string>
 </resources>
