@@ -430,7 +430,7 @@ public class MainMenuActivity extends AppCompatActivity {
                     File defaultProfileFile = new File(getExternalCacheDir(), "default_profile.txt");
                     try {
                         defaultProfileFile.createNewFile();
-                        USM profile = (new USM(defaultProfileName.getText().toString(), MainMenuActivity.this));
+                        USM profile = (new USM(defaultProfileName.getText().toString(), "Achie", MainMenuActivity.this));
                         profile.create_isec("date");
                         profile.create_ssec("object");
                         profile.create_ssec("type");
@@ -636,7 +636,7 @@ public class MainMenuActivity extends AppCompatActivity {
                         super.onCreate(savedInstanceState);
                         setContentView(R.layout.select_profile_dialog);
 
-                        List<USM> profiles = USM.get_profiles(MainMenuActivity.this);
+                        List<USM> profiles = USM.get_profiles("Achie", MainMenuActivity.this);
                         RecyclerView rec = findViewById(R.id.select_profiles);
                         rec.setLayoutManager(new LinearLayoutManager(MainMenuActivity.this));
                         ProfileAdapter.OnProfileClickListener profileClickListener = new ProfileAdapter.OnProfileClickListener() {
@@ -681,7 +681,7 @@ public class MainMenuActivity extends AppCompatActivity {
                         View.OnClickListener applyProfileBtnListener = new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                USM newProfile = (new USM(defaultProfileName.getText().toString(), MainMenuActivity.this));
+                                USM newProfile = (new USM(defaultProfileName.getText().toString(), "Achie", MainMenuActivity.this));
                                 newProfile.create_isec("date");
                                 newProfile.create_ssec("object");
                                 newProfile.create_ssec("type");
@@ -795,7 +795,7 @@ public class MainMenuActivity extends AppCompatActivity {
         try {
             BufferedReader readDefaultProfile = new BufferedReader(new InputStreamReader(new FileInputStream(new File(getExternalCacheDir(), "default_profile.txt"))));
             String defaultProfileName = readDefaultProfile.readLine();
-            profile = new USM(defaultProfileName, this);
+            profile = new USM(defaultProfileName, "Achie", this);
             Toast.makeText(this, defaultProfileName, Toast.LENGTH_SHORT).show();
             readDefaultProfile.close();
         } catch (IOException e) {
