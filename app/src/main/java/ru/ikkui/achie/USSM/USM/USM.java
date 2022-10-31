@@ -543,7 +543,7 @@ public class USM implements Serializable {
                 while ((s = bufferedReader.readLine()) != null) {
                     String[] s1 = s.split(":");
                     if (s1.length == 1 || s1[1].equals(program_name)) {
-                        profiles.add(new USM(s1[0], context));
+                        profiles.add(new USM(s1[0], "Achie", context));
                     }
                 }
             }

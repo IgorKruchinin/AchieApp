@@ -38,7 +38,7 @@ public class LOQTerm extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
-        loq = new LOQ(this);
+        loq = new LOQ("Achie", this);
         LOQOutput = findViewById(R.id.TermOutput);
         cmdFld = findViewById(R.id.TermInput);
         enterCmdBtn = findViewById(R.id.enterCmdBtn);

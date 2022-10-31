@@ -411,6 +411,9 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     class DefaultProfileDialog extends  Dialog {
+
+        private USM profile;
+
         DefaultProfileDialog(Context context) {
             super(context);
         }
@@ -438,7 +441,7 @@ public class MainMenuActivity extends AppCompatActivity {
                         profile.create_isec("count");
                         profile.create_ssec("photo");
                         profile.to_file(MainMenuActivity.this);
-                        MainMenuActivity.this.profile = profile;
+                        DefaultProfileDialog.this.profile = profile;
                         BufferedWriter defaultProfileWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(defaultProfileFile)));
                         defaultProfileWriter.write(defaultProfileName.getText().toString());
                         defaultProfileWriter.flush();
@@ -452,6 +455,9 @@ public class MainMenuActivity extends AppCompatActivity {
                 }
             };
             applyProfileBtn.setOnClickListener(applyProfileBtnListener);
+        }
+        public USM getProfile() {
+            return profile;
         }
     }
 
@@ -489,6 +495,8 @@ public class MainMenuActivity extends AppCompatActivity {
     private USM profile;
     private USMAdapter adapter;
     String imagePath = "";
+
+    boolean profileWereNullFlag = false;
 
 
     ActivityResultLauncher<String> getImagePath = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
@@ -536,72 +544,79 @@ public class MainMenuActivity extends AppCompatActivity {
         // Bundle arguments = getIntent().getExtras();
 
         // profile = (USM) arguments.get("profile");
-        getDefaultProfile();
+        if (profile != null) {
+            getDefaultProfile();
+        }
 
         if (profile == null) {
             DefaultProfileDialog dialog = new DefaultProfileDialog(this);
             dialog.show();
             getDefaultProfile();
+            profileWereNullFlag = true;
+        }
+        init();
+
+
+
         }
 
-        if (profile != null) {
-
-            USMAdapter.OnAchieClickListener achieClickListener = new USMAdapter.OnAchieClickListener() {
-                @Override
-                public void onAchieClick(USM profile, int position) {
+        private void init() {
+            if (profile != null) {
+                USMAdapter.OnAchieClickListener achieClickListener = new USMAdapter.OnAchieClickListener() {
+                    @Override
+                    public void onAchieClick(USM profile, int position) {
                     /*Intent intent = new Intent(MainMenuActivity.this, ViewAchieActivity.class);
                     intent.putExtra("profile", profile);
                     intent.putExtra("index", position);
                     startActivity(intent);*/
-                    ViewAchieDialog viewAchieDialog = new ViewAchieDialog(MainMenuActivity.this, profile, position);
-                    viewAchieDialog.show();
-                }
+                        ViewAchieDialog viewAchieDialog = new ViewAchieDialog(MainMenuActivity.this, profile, position);
+                        viewAchieDialog.show();
+                    }
 
-                @Override
-                public void onAchieLongClick(View view, USM profile, int position) {
-                    PopupMenu menu = new PopupMenu(MainMenuActivity.this, view);
-                    menu.getMenuInflater().inflate(R.menu.achie_popup_menu, menu.getMenu());
-                    menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem menuItem) {
-                            switch (menuItem.getItemId()) {
-                                case R.id.edit_achie:
-                                    EditAchieDialog editAchieDialog = new EditAchieDialog(MainMenuActivity.this, profile, adapter, position);
-                                    editAchieDialog.show();
-                                    // Intent editIntent = new Intent(MainMenuActivity.this, AchieEditActivity.class);
-                                    // editIntent.putExtra("profile", profile);
-                                    // editIntent.putExtra("index", position);
-                                    // startActivity(editIntent);
-                                    break;
-                                case R.id.deleteAchie:
-                                    profile.geti("date").remove(position);
-                                    profile.gets("object").remove(position);
-                                    profile.gets("type").remove(position);
-                                    profile.gets("measure").remove(position);
-                                    profile.geti("count").remove(position);
-                                    profile.gets("photo").remove(position);
-                                    profile.to_file(MainMenuActivity.this);
-                                    adapter.notifyDataSetChanged();
-                                    break;
+                    @Override
+                    public void onAchieLongClick(View view, USM profile, int position) {
+                        PopupMenu menu = new PopupMenu(MainMenuActivity.this, view);
+                        menu.getMenuInflater().inflate(R.menu.achie_popup_menu, menu.getMenu());
+                        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem menuItem) {
+                                switch (menuItem.getItemId()) {
+                                    case R.id.edit_achie:
+                                        EditAchieDialog editAchieDialog = new EditAchieDialog(MainMenuActivity.this, profile, adapter, position);
+                                        editAchieDialog.show();
+                                        // Intent editIntent = new Intent(MainMenuActivity.this, AchieEditActivity.class);
+                                        // editIntent.putExtra("profile", profile);
+                                        // editIntent.putExtra("index", position);
+                                        // startActivity(editIntent);
+                                        break;
+                                    case R.id.deleteAchie:
+                                        profile.geti("date").remove(position);
+                                        profile.gets("object").remove(position);
+                                        profile.gets("type").remove(position);
+                                        profile.gets("measure").remove(position);
+                                        profile.geti("count").remove(position);
+                                        profile.gets("photo").remove(position);
+                                        profile.to_file(MainMenuActivity.this);
+                                        adapter.notifyDataSetChanged();
+                                        break;
 
+                                }
+                                return true;
                             }
-                            return true;
-                        }
-                    });
-                    menu.show();
-                }
-            };
+                        });
+                        menu.show();
+                    }
+                };
 
-            RecyclerView recyclerView = findViewById(R.id.achies_list);
+                RecyclerView recyclerView = findViewById(R.id.achies_list);
 
-            adapter = new USMAdapter(this, profile, achieClickListener);
+                adapter = new USMAdapter(this, profile, achieClickListener);
 
-            DividerItemDecoration divider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+                DividerItemDecoration divider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
 
-            recyclerView.setAdapter(adapter);
-            recyclerView.addItemDecoration(divider);
-
-        }
+                recyclerView.setAdapter(adapter);
+                recyclerView.addItemDecoration(divider);
+            }
 
 
         /*List<String> achiesStrings = new Vector<String>();
@@ -722,33 +737,36 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     public void addAchie(View v) {
-        PopupMenu menu = new PopupMenu(MainMenuActivity.this, v);
-        menu.getMenuInflater().inflate(R.menu.popup_menu, menu.getMenu());
-        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.addAchie:
+        if (profileWereNullFlag) {
+            getDefaultProfile();
+            init();
+            PopupMenu menu = new PopupMenu(MainMenuActivity.this, v);
+            menu.getMenuInflater().inflate(R.menu.popup_menu, menu.getMenu());
+            menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    switch (menuItem.getItemId()) {
+                        case R.id.addAchie:
 
 
-                        AddAchieDialog achieDialog = new AddAchieDialog(MainMenuActivity.this, profile, adapter);
-                        achieDialog.show();
+                            AddAchieDialog achieDialog = new AddAchieDialog(MainMenuActivity.this, profile, adapter);
+                            achieDialog.show();
 
 
-
-                        // Intent intent = new Intent(MainMenuActivity.this, AddAchieActivity.class);
-                        // intent.putExtra("profile", profile);
-                        // startActivity(intent);
-                        break;
-                    case R.id.addToPlan:
-                        Toast toast = Toast.makeText(MainMenuActivity.this, "This content not realised yet", Toast.LENGTH_SHORT);
-                        toast.show();
-                        break;
+                            // Intent intent = new Intent(MainMenuActivity.this, AddAchieActivity.class);
+                            // intent.putExtra("profile", profile);
+                            // startActivity(intent);
+                            break;
+                        case R.id.addToPlan:
+                            Toast toast = Toast.makeText(MainMenuActivity.this, "This content not realised yet", Toast.LENGTH_SHORT);
+                            toast.show();
+                            break;
+                    }
+                    return true;
                 }
-                return true;
-            }
-        });
-        menu.show();
+            });
+            menu.show();
+        }
     }
 
     public void export(View view) {

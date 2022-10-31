@@ -14,12 +14,14 @@ public class LOQ {
     private int lastFormat = -1;
     private boolean is_changed;
     private boolean lock_flag;
+    private String prog_name;
 
     private Context context;
-    public LOQ(Context context) {
+    public LOQ(final String prog_name, Context context) {
+        this.prog_name = prog_name;
         this.context = context;
         profiles = new TreeMap<>();
-        for (USM prof: USM.get_profiles("LOQ", context)) {
+        for (USM prof: USM.get_profiles(prog_name, context)) {
             profiles.put(prof.get_name(), prof);
         }
         integers = new Stack<>();
@@ -48,7 +50,7 @@ public class LOQ {
                 create_flag = false;
                 if (prof_name.equals("")) {
                     if (lock_flag) {
-                        profiles.put(q, new USM(q, "LOQ", context));
+                        profiles.put(q, new USM(q, prog_name, context));
                     } else {
                         profiles.put(q, new USM(q, context));
                     }
