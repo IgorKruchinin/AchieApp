@@ -544,17 +544,16 @@ public class MainMenuActivity extends AppCompatActivity {
         // Bundle arguments = getIntent().getExtras();
 
         // profile = (USM) arguments.get("profile");
-        if (profile != null) {
-            getDefaultProfile();
-        }
+        getDefaultProfile();
 
         if (profile == null) {
             DefaultProfileDialog dialog = new DefaultProfileDialog(this);
             dialog.show();
             getDefaultProfile();
             profileWereNullFlag = true;
+        } else {
+            init();
         }
-        init();
 
 
 
