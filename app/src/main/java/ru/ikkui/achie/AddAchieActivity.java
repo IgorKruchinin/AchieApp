@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import ru.ikkui.achie.USM.USM;
+import ru.ikkui.achie.USSM.USM.USM;
 import ru.ikkui.achie.databinding.ActivityAddAchieBinding;
 
 public class AddAchieActivity extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package ru.ikkui.achie.USM;
+package ru.ikkui.achie.USSM.USM;
 
 public class USMProfileException extends Exception {
     USMProfileException(String message) {

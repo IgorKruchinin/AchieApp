@@ -1,7 +1,6 @@
-package ru.ikkui.achie.USM;
+package ru.ikkui.achie.USSM.USM;
 
 import android.content.Context;
-import android.os.Environment;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -15,19 +14,13 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -104,17 +97,20 @@ public class USM implements Serializable {
             } catch (IOException ignored) {}
         }
     }
-    public USM(final String name, final String program_name) {
+    public USM(final String name, final String program_name, Context context) {
+
+
         name_ = name;
-        program_name_ = program_name;
-        Path path = Paths.get("profiles", File.separator,  name_ + ".uto");
+        // Path path = Paths.get("profiles", File.separator,  name_ + ".uto");
         //isecs_ = new HashMap<>();
         //ssecs_ = new HashMap<>();
         secs_ = new TreeMap<>();
         formats = new Vector<>();
-        try {
+        File uto = new  File (context.getExternalFilesDir(null), "profiles/" + name_ + ".uto");
+        try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(uto)))) {
             is_opened = true;
-            for (String s: Files.readAllLines(path, StandardCharsets.UTF_8)) {
+            String s;
+            while ((s = bufferedReader.readLine()) != null) {
                 if (s.charAt(0) == 'i') {
                     Section auto = new IntSection("auto");
                     auto.parse(s);
@@ -132,10 +128,23 @@ public class USM implements Serializable {
         }
         if (!is_opened) {
             try {
-                Files.createFile(path);
-                Files.write(Paths.get("profiles", File.separator, "profiles_list.txt"), (name_ + ":" + program_name).getBytes(), StandardOpenOption.APPEND);
+                //Files.createFile(path);
+                //Files.write(Paths.get("profiles", File.separator, "profiles_list.txt"), name_.getBytes(), StandardOpenOption.APPEND);
+                File profiles_directory = new File(context.getExternalFilesDir(null), "profiles");
+                File profiles_list = new File(context.getExternalFilesDir(null), "profiles" + File.separator +"profiles_list.txt");
+                if (!profiles_directory.exists()) {
+                    profiles_directory.mkdirs();
+                }
+                if (!profiles_list.exists()) {
+                    profiles_list.createNewFile();
+                }
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(profiles_list, true)));
+                bufferedWriter.write(name_ + ":" + program_name + "\n");
+                bufferedWriter.flush();
+                bufferedWriter.close();
             } catch (IOException e) {
-                System.exit(1);
+                //System.exit(1);
+                state = e.toString();
             }
         }
     }
@@ -517,24 +526,29 @@ public class USM implements Serializable {
         }
         return profiles;
     }
-    public static List<USM> get_profiles(final String program_name) {
-        List<USM> profiles = new Vector<>();
-        Path path = Paths.get("profiles", File.separator,"profiles_list.txt");
+    public static List<USM> get_profiles(final String program_name, Context context) {
+
+        ArrayList<USM> profiles = new ArrayList<>();
         try {
-            for (String s : Files.readAllLines(path, StandardCharsets.UTF_8)) {
-                String[] s1 = s.split(":");
-                if (s1.length > 0) {
+            File profiles_directory = new File(context.getExternalFilesDir(null), "profiles");
+            File profiles_list = new File(context.getExternalFilesDir(null), "profiles" + File.separator +"profiles_list.txt");
+            if (!profiles_directory.exists()) {
+                profiles_directory.mkdirs();
+            }
+            if (!profiles_list.exists()) {
+                profiles_list.createNewFile();
+            }
+            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(profiles_list)))) {
+                String s;
+                while ((s = bufferedReader.readLine()) != null) {
+                    String[] s1 = s.split(":");
                     if (s1.length == 1 || s1[1].equals(program_name)) {
-                        profiles.add(new USM(s1[0]));
+                        profiles.add(new USM(s1[0], context));
                     }
                 }
             }
         } catch (IOException e) {
-            try {
-                Files.createFile(path);
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
+            e.printStackTrace();
         }
         return profiles;
     }

@@ -15,15 +15,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Achie"
         tools:targetApi="30">
+        <activity
+            android:name=".LOQTerm"
+            android:exported="false"
+            android:label="@string/title_activity_loqterm"
+            android:theme="@style/Theme.Achie.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:grantUriPermissions="true"
+            android:authorities="${applicationId}"
             android:exported="false"
-            android:authorities="${applicationId}">
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_provider_paths"/>
+                android:resource="@xml/file_provider_paths" />
         </provider>
+
         <activity
             android:name=".AchieEditActivity"
             android:exported="false"
@@ -33,7 +44,6 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
         <activity
             android:name=".ViewFullImageActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -49,19 +59,23 @@
             android:name=".ViewAchieActivity"
             android:exported="false"
             android:label="@string/title_activity_view_achie"
-            android:theme="@style/Theme.Achie.NoActionBar" >
-        <intent-filter>
-            <action android:name="android.intent.action.View"/>
-            <category android:name="android.intent.category.DEFAULT"/>
-            <data android:mimeType="application/x-zip-compressed"/>
-        </intent-filter>
-        <intent-filter>
-            <action android:name="android.intent.action.View"/>
-            <category android:name="android.intent.category.DEFAULT"/>
-            <data android:scheme="file"/>
-            <data android:pathPattern=".*\\.ach"/>
-            <data android:host="*"/>
-        </intent-filter>
+            android:theme="@style/Theme.Achie.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.View" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="application/x-zip-compressed" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.View" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="file" />
+                <data android:pathPattern=".*\\.ach" />
+                <data android:host="*" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".AddAchieActivity"
@@ -77,10 +91,11 @@
             android:name=".MainMenuActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Achie.NoActionBar"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Achie.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.ui.AppBarConfiguration;
 
-import ru.ikkui.achie.USM.USM;
+import ru.ikkui.achie.USSM.USM.USM;
 import ru.ikkui.achie.databinding.ActivityAddProfBinding;
 
 public class AddProfActivity extends AppCompatActivity {

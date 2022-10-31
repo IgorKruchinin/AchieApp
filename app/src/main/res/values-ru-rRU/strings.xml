@@ -34,4 +34,10 @@
     <string name="new_profile_message">Создайте новый профиль:</string>
     <string name="make_default">Сделать профилем по-умолчанию</string>
     <string name="add_achie_message">Введите дату, имя, описание достижения, а также меру и количество (если есть):</string>
+    <string name="title_activity_loqterm">LOQ терминал</string>
+    <string name="enter">Ввод</string>
+    <string name="open_terminal">Открыть LOQ терминал</string>
+    <string name="OK_btn">Вперёд</string>
+    <string name="open_terminal_msg">       Предупреждение!\nИспользование LOQ терминала может повредить данные приложения или нарушить его логику.\n\nИспользуйте, только если вы знаете, что делаете!</string>
+    <string name="enter_command">Введите команду</string>
 </resources>

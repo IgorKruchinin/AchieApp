@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,12 +21,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.net.URLConnection;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-import ru.ikkui.achie.USM.USM;
+import ru.ikkui.achie.USSM.USM.USM;
 import ru.ikkui.achie.databinding.ActivityViewAchieBinding;
 
 public class ViewAchieActivity extends AppCompatActivity {

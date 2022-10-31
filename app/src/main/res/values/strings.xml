@@ -33,4 +33,10 @@
     <string name="new_profile_message">Create a new profile:</string>
     <string name="make_default">Make this profile as default</string>
     <string name="add_achie_message">Enter the date, name, description and also measure and count of Achie (if it has):</string>
+    <string name="title_activity_loqterm">LOQTerm</string>
+    <string name="enter">Enter</string>
+    <string name="open_terminal">Open LOQ Terminal</string>
+    <string name="OK_btn">OK</string>
+    <string name="open_terminal_msg">       Warning!\n Using LOQ terminal may damage the application data or break its logic.\n\nUse it only if you know what you are doing!</string>
+    <string name="enter_command">Enter command</string>
 </resources>

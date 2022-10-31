@@ -4,8 +4,6 @@ import android.app.DatePickerDialog;
 import android.net.Uri;
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -17,10 +15,7 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,7 +30,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import ru.ikkui.achie.USM.USM;
+import ru.ikkui.achie.USSM.USM.USM;
 import ru.ikkui.achie.databinding.ActivityAchieEditBinding;
 
 public class AchieEditActivity extends AppCompatActivity {

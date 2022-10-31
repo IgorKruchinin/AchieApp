@@ -54,10 +54,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import ru.ikkui.achie.USM.IntSection;
-import ru.ikkui.achie.USM.Section;
-import ru.ikkui.achie.USM.StringSection;
-import ru.ikkui.achie.USM.USM;
+import ru.ikkui.achie.USSM.USM.IntSection;
+import ru.ikkui.achie.USSM.USM.Section;
+import ru.ikkui.achie.USSM.USM.StringSection;
+import ru.ikkui.achie.USSM.USM.USM;
 import ru.ikkui.achie.databinding.ActivityMainMenuBinding;
 
 public class MainMenuActivity extends AppCompatActivity {
@@ -455,6 +455,34 @@ public class MainMenuActivity extends AppCompatActivity {
         }
     }
 
+    public class OpenTerminalDialog extends Dialog {
+        public OpenTerminalDialog(Context context) {
+            super(context);
+        }
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.open_terminal_dialog);
+
+            Button cancelBtn = findViewById(R.id.cancelBtn);
+            Button OKButton = findViewById(R.id.OKBtn);
+            cancelBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cancel();
+                }
+            });
+            OKButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent terminalActivity = new Intent(MainMenuActivity.this, LOQTerm.class);
+                    startActivity(terminalActivity);
+                    cancel();
+                }
+            });
+        }
+    }
+
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainMenuBinding binding;
     private Button addAchieBtn;
@@ -512,7 +540,6 @@ public class MainMenuActivity extends AppCompatActivity {
 
         if (profile == null) {
             DefaultProfileDialog dialog = new DefaultProfileDialog(this);
-            dialog.setContentView(R.layout.default_profile_dialog);
             dialog.show();
             getDefaultProfile();
         }
@@ -556,6 +583,7 @@ public class MainMenuActivity extends AppCompatActivity {
                                     profile.to_file(MainMenuActivity.this);
                                     adapter.notifyDataSetChanged();
                                     break;
+
                             }
                             return true;
                         }
@@ -683,6 +711,10 @@ public class MainMenuActivity extends AppCompatActivity {
                     Toast.makeText(MainMenuActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     return false;
                 }
+                return true;
+            case R.id.openTerminal:
+                OpenTerminalDialog openTerminalDialog = new OpenTerminalDialog(MainMenuActivity.this);
+                openTerminalDialog.show();
                 return true;
             default:
                 return false;

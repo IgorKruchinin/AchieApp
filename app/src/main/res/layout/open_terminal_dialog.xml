@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/open_terminal_dialog_scene">
+
+    <TextView
+        android:id="@+id/openTerminalMsg"
+        android:layout_width="319dp"
+        android:layout_height="158dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/open_terminal_msg"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/cancelBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/back_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/openTerminalMsg" />
+
+    <Button
+        android:id="@+id/OKBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/OK_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/openTerminalMsg" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

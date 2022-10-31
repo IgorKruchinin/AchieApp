@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,7 +12,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import ru.ikkui.achie.USM.USM;
+import ru.ikkui.achie.USSM.USM.USM;
 
 public class USMAdapter extends RecyclerView.Adapter<USMAdapter.ViewHolder>{
     private final LayoutInflater inflater;

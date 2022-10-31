@@ -19,4 +19,8 @@
         android:orderInCategory="103"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/openTerminal"
+        android:orderInCategory="104"
+        android:title="@string/open_terminal" />
 </menu>

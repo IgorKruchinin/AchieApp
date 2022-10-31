@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import ru.ikkui.achie.USM.USM;
+import ru.ikkui.achie.USSM.USM.USM;
 
 public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHolder>{
     private final LayoutInflater inflater;

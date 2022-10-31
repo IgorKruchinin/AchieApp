@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import ru.ikkui.achie.USM.USM;
+import ru.ikkui.achie.USSM.USM.USM;
 import ru.ikkui.achie.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
