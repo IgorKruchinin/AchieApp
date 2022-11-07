@@ -39,4 +39,6 @@
     <string name="OK_btn">OK</string>
     <string name="open_terminal_msg">       Warning!\n Using LOQ terminal may damage the application data or break its logic.\n\nUse it only if you know what you are doing!</string>
     <string name="enter_command">Enter command</string>
+    <string name="import_profile">Import Profile</string>
+    <string name="share">Share</string>
 </resources>

@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="ru.ikkui.achie.MainActivity">
+    tools:context="ru.ikkui.achie.MainMenuActivity">
     <item
         android:id="@+id/selectProfileItem"
         android:orderInCategory="100"
@@ -15,12 +15,16 @@
         android:orderInCategory="102"
         android:title="@string/make_default" />
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/ImportProfileItem"
         android:orderInCategory="103"
+        android:title="@string/import_profile" />
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="104"
         android:title="@string/action_settings"
         app:showAsAction="never" />
     <item
         android:id="@+id/openTerminal"
-        android:orderInCategory="104"
+        android:orderInCategory="105"
         android:title="@string/open_terminal" />
 </menu>

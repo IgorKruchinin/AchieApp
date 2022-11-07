@@ -10,23 +10,24 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.Vector;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 public class USM implements Serializable {
@@ -49,57 +50,7 @@ public class USM implements Serializable {
         state = "";
     }
 
-    public USM(final String name) {
-        name_ = name;
-        Path path = Paths.get("profiles", File.separator,  name_ + ".uto");
-        //isecs_ = new HashMap<>();
-        //ssecs_ = new HashMap<>();
-        secs_ = new TreeMap<>();
-        formats = new Vector<>();
-        try {
-            is_opened = true;
-            for (String s: Files.readAllLines(path, StandardCharsets.UTF_8)) {
-                if (s.charAt(0) == 'i') {
-                    Section auto = new IntSection("auto");
-                    auto.parse(s);
-                    secs_.put(auto.get_name(), auto);
-                    formats.add(0);
-                } else if (s.charAt(0) == 's') {
-                    Section auto = new StringSection("auto");
-                    auto.parse(s);
-                    secs_.put(auto.get_name(), auto);
-                    formats.add(1);
-                }
-            }
-        } catch (IOException | USMSectionException e) {
-            is_opened = false;
-        }
-        if (!is_opened) {
-            try {
-                Files.createFile(path);
-                Files.write(Paths.get("profiles", File.separator, "profiles_list.txt"), name_.getBytes(), StandardOpenOption.APPEND);
-            } catch (IOException e) {
-                System.exit(1);
-            }
-        }
-    }
-    public USM(String name, int flag) {
-        if (flag == 1) {
-            try {
-                name_ = name;
-                //isecs_ = new HashMap<>();
-                //ssecs_ = new HashMap<>();
-                secs_ = new TreeMap<>();
-                formats = new Vector<>();
-                Path path = Paths.get("profiles", File.separator, name_ + ".uto");
-                Files.createFile(path);
-                Files.write(Paths.get("profiles", File.separator, "profiles_list.txt"), name_.getBytes(), StandardOpenOption.APPEND);
-            } catch (IOException ignored) {}
-        }
-    }
     public USM(final String name, final String program_name, Context context) {
-
-
         name_ = name;
         // Path path = Paths.get("profiles", File.separator,  name_ + ".uto");
         //isecs_ = new HashMap<>();
@@ -146,122 +97,6 @@ public class USM implements Serializable {
                 //System.exit(1);
                 state = e.toString();
             }
-        }
-    }
-    public USM(String name, String program_name, int flag) {
-        if (flag == 1) {
-            try {
-                name_ = name;
-                program_name_ = program_name;
-                //isecs_ = new HashMap<>();
-                //ssecs_ = new HashMap<>();
-                secs_ = new TreeMap<>();
-                formats = new Vector<>();
-                Path path = Paths.get("profiles", File.separator, name_ + ".uto");
-                Files.createFile(path);
-                Files.write(Paths.get("profiles", File.separator, "profiles_list.txt"), (name_ + ":" + program_name).getBytes(), StandardOpenOption.APPEND);
-            } catch (IOException ignored) {}
-        }
-    }
-
-
-
-    public USM(final Path dirPath, final String name) {
-        name_ = name;
-        Path path = Paths.get(dirPath.toAbsolutePath().toString(), File.separator, "profiles", File.separator,  name_ + ".uto");
-        //isecs_ = new HashMap<>();
-        //ssecs_ = new HashMap<>();
-        secs_ = new TreeMap<>();
-        formats = new Vector<>();
-        try {
-            is_opened = true;
-            for (String s: Files.readAllLines(path, StandardCharsets.UTF_8)) {
-                if (s.charAt(0) == 'i') {
-                    Section auto = new IntSection("auto");
-                    auto.parse(s);
-                    secs_.put(auto.get_name(), auto);
-                    formats.add(0);
-                } else if (s.charAt(0) == 's') {
-                    Section auto = new StringSection("auto");
-                    auto.parse(s);
-                    secs_.put(auto.get_name(), auto);
-                    formats.add(1);
-                }
-            }
-        } catch (IOException | USMSectionException e) {
-            is_opened = false;
-        }
-        if (!is_opened) {
-            try {
-                Files.createFile(path);
-                Files.write(Paths.get(dirPath.toString(), File.separator, "profiles", File.separator, "profiles_list.txt"), name_.getBytes(), StandardOpenOption.APPEND);
-            } catch (IOException e) {
-                System.exit(1);
-            }
-        }
-    }
-    public USM(final Path dirPath, final String name, int flag) {
-        if (flag == 1) {
-            try {
-                name_ = name;
-                //isecs_ = new HashMap<>();
-                //ssecs_ = new HashMap<>();
-                secs_ = new TreeMap<>();
-                formats = new Vector<>();
-                Path path = Paths.get(dirPath.toString(), File.separator, "profiles", File.separator, name_ + ".uto");
-                Files.createFile(path);
-                Files.write(Paths.get(dirPath.toString(), File.separator, "profiles", File.separator, "profiles_list.txt"), name_.getBytes(), StandardOpenOption.APPEND);
-            } catch (IOException ignored) {}
-        }
-    }
-    public USM(final Path dirPath, final String name, final String program_name) {
-        name_ = name;
-        program_name_ = program_name;
-        Path path = Paths.get(dirPath.toString(), File.separator, "profiles", File.separator,  name_ + ".uto");
-        //isecs_ = new HashMap<>();
-        //ssecs_ = new HashMap<>();
-        secs_ = new TreeMap<>();
-        formats = new Vector<>();
-        try {
-            is_opened = true;
-            for (String s: Files.readAllLines(path, StandardCharsets.UTF_8)) {
-                if (s.charAt(0) == 'i') {
-                    Section auto = new IntSection("auto");
-                    auto.parse(s);
-                    secs_.put(auto.get_name(), auto);
-                    formats.add(0);
-                } else if (s.charAt(0) == 's') {
-                    Section auto = new StringSection("auto");
-                    auto.parse(s);
-                    secs_.put(auto.get_name(), auto);
-                    formats.add(1);
-                }
-            }
-        } catch (IOException | USMSectionException e) {
-            is_opened = false;
-        }
-        if (!is_opened) {
-            try {
-                Files.createFile(path);
-                Files.write(Paths.get(dirPath.toString(), File.separator, "profiles", File.separator, "profiles_list.txt"), (name_ + ":" + program_name).getBytes(), StandardOpenOption.APPEND);
-            } catch (IOException e) {
-                System.exit(1);
-            }
-        }
-    }
-    public USM(final Path dirPath, final String name, final String program_name, int flag) {
-        if (flag == 1) {
-            try {
-                name_ = name;
-                program_name_ = program_name;
-                //isecs_ = new HashMap<>();
-                //ssecs_ = new HashMap<>();
-                secs_ = new TreeMap<>();
-                formats = new Vector<>();
-                Path path = Paths.get(dirPath.toString(), File.separator, "profiles", File.separator, name_ + ".uto");
-                Files.createFile(path);
-                Files.write(Paths.get(dirPath.toString(), File.separator, "profiles", File.separator, "profiles_list.txt"), (name_ + ":" + program_name).getBytes(), StandardOpenOption.APPEND);
-            } catch (IOException ignored) {}
         }
     }
 
@@ -326,6 +161,48 @@ public class USM implements Serializable {
         }
     }
 
+    public File to_prof_archive(Context context) {
+        try {
+            BufferedInputStream o = null;
+            File archive = new File(context.getFilesDir() + File.separator + name_ + ".profpack");
+            FileOutputStream to =  new FileOutputStream(archive);
+            ZipOutputStream output = new ZipOutputStream(new BufferedOutputStream(to));
+            byte[] data = new byte[512];
+
+            FileInputStream utoInput = new FileInputStream(new File(context.getExternalFilesDir(null), "profiles" + File.separator + name_ + ".uto"));
+            o = new BufferedInputStream(utoInput, 512);
+            ZipEntry uosEntry = new ZipEntry(name_ + ".uto");
+            output.putNextEntry(uosEntry);
+            int k = 0;
+            while((k = o.read(data, 0, 512)) != -1) {
+                output.write(data, 0, k);
+            }
+            o.close();
+            File resDir = new File(context.getExternalFilesDir(null), "profiles" + File.separator + "res" + File.separator + name_);
+            if (resDir.listFiles() != null) {
+                for (File inputFile : resDir.listFiles()) {
+                    if (inputFile.exists() && inputFile.isFile()) {
+                        FileInputStream inputStream = new FileInputStream(inputFile);
+                        o = new BufferedInputStream(inputStream, 512);
+                        ZipEntry entry = new ZipEntry("res" + File.separator + name_ + File.separator + inputFile.getName());
+                        output.putNextEntry(entry);
+                        int count = 0;
+                        while ((count = o.read(data, 0, 512)) != -1) {
+                            output.write(data, 0, count);
+                        }
+                        o.close();
+                    }
+                }
+            }
+            output.close();
+            return archive;
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
     public File to_one_archive(Context context, final String filename, final String typename, int index, final String... resNames) throws IOException {
         try {
 
@@ -385,6 +262,51 @@ public class USM implements Serializable {
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
+        }
+    }
+
+    public static void from_profile_archive(ZipFile archive, Context context) throws IOException {
+        Enumeration<? extends ZipEntry> entries = archive.entries();
+        File profilesDir = new File(context.getExternalFilesDir(null), "profiles");
+        File resDir = new File(profilesDir, "res");
+        resDir.mkdirs();
+        profilesDir.mkdirs();
+        Vector<String> names = new Vector<String>();
+        while (entries.hasMoreElements()) {
+            ZipEntry entry = entries.nextElement();
+            if (entry.isDirectory()) {
+                File dir = new File(context.getExternalFilesDir(null), "profiles" + File.separator + entry.getName());
+                dir.mkdirs();
+            } else {
+                int index  = entry.getName().lastIndexOf('.');
+                if (index >= 0 && entry.getName().substring(index + 1).equals("uto")) {
+                    String name = entry.getName().substring(0, entry.getName().lastIndexOf('.'));
+                    File res = new File(resDir, name);
+                    res.mkdirs();
+                    names.add(name);
+                }
+                InputStream inputStream = archive.getInputStream(entry);
+                File file = new File(profilesDir, entry.getName());
+                file.createNewFile();
+                FileOutputStream outputStream = new FileOutputStream(file);
+
+                byte[] buffer = new byte[512];
+                int len;
+                while ((len = inputStream.read(buffer)) > 0) {
+                    outputStream.write(buffer, 0, len);
+                }
+            }
+
+        }
+        File profiles_list = new File(context.getExternalFilesDir(null), "profiles" + File.separator +"profiles_list.txt");
+        if (!profiles_list.exists()) {
+            profiles_list.createNewFile();
+        }
+        for (String name : names) {
+            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(profiles_list, true)));
+            bufferedWriter.write(name + "\n");
+            bufferedWriter.flush();
+            bufferedWriter.close();
         }
     }
 
@@ -552,50 +474,6 @@ public class USM implements Serializable {
         }
         return profiles;
     }
-
-
-
-    public static List<USM> get_profiles(Path dirPath) {
-        List<USM> profiles = new Vector<>();
-        Path path = Paths.get(dirPath.toString(), File.separator, "profiles", File.separator,"profiles_list.txt");
-        try {
-            for (String s : Files.readAllLines(path, StandardCharsets.UTF_8)) {
-                String[] s1 = s.split(":");
-                profiles.add(new USM(s1[0]));
-            }
-        } catch (IOException e) {
-            try {
-                Files.createFile(path);
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        }
-        return profiles;
-    }
-    public static List<USM> get_profiles(Path dirPath, final String program_name) {
-        List<USM> profiles = new Vector<>();
-        Path path = Paths.get(dirPath.toString(), File.separator, "profiles", File.separator,"profiles_list.txt");
-        try {
-            for (String s : Files.readAllLines(path, StandardCharsets.UTF_8)) {
-                String[] s1 = s.split(":");
-                if (s1.length > 0) {
-                    if (s1.length == 1 || s1[1].equals(program_name)) {
-                        profiles.add(new USM(s1[0]));
-                    }
-                }
-            }
-        } catch (IOException e) {
-            try {
-                Files.createFile(path);
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        }
-        return profiles;
-    }
-
-
-
 }
 
 class Arithmetics {

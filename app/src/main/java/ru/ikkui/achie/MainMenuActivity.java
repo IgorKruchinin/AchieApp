@@ -2,6 +2,7 @@ package ru.ikkui.achie;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -53,6 +54,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.Vector;
+import java.util.zip.ZipFile;
 
 import ru.ikkui.achie.USSM.USM.IntSection;
 import ru.ikkui.achie.USSM.USM.Section;
@@ -61,6 +64,33 @@ import ru.ikkui.achie.USSM.USM.USM;
 import ru.ikkui.achie.databinding.ActivityMainMenuBinding;
 
 public class MainMenuActivity extends AppCompatActivity {
+
+    Vector<File> usedFiles;
+
+
+    ActivityResultLauncher<String> getProfArchivePath = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+        @Override
+        public void onActivityResult(Uri result) {
+            try {
+                File file = new File(result.getPath());
+                File to = new File(getExternalCacheDir(), "import.zip");
+                to.createNewFile();
+                InputStream input = getContentResolver().openInputStream(result);
+                FileOutputStream output = new FileOutputStream(to);
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = input.read(buffer)) > 0) {
+                    output.write(buffer, 0, length);
+                }
+                ZipFile zipFile = new ZipFile(to);
+                USM.from_profile_archive(zipFile, MainMenuActivity.this);
+                to.delete();
+            } catch (IOException ex) {
+                Toast.makeText(MainMenuActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                ex.printStackTrace();
+            }
+        }
+    });
 
     class AddAchieDialog extends  Dialog {
         USM profile;
@@ -195,6 +225,7 @@ public class MainMenuActivity extends AppCompatActivity {
         TextView achieMeasureFld;
         List<String> achieMeasure;
         TextView achieCountFld;
+
         // private String imagePath = "";
 
         EditAchieDialog(Context context, USM profile, USMAdapter adapter, int position) {
@@ -208,7 +239,6 @@ public class MainMenuActivity extends AppCompatActivity {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.content_add_achie);
-
 
             achieDateFld = findViewById(R.id.achieDateFld);
             dateFormat = SimpleDateFormat.getDateInstance();
@@ -338,6 +368,7 @@ public class MainMenuActivity extends AppCompatActivity {
                         shareIntent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
                         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         startActivity(Intent.createChooser(shareIntent, "Send File"));
+                        usedFiles.add(archive);
                     } catch (IOException ex) {
                         Toast.makeText(MainMenuActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();;
                     }
@@ -535,11 +566,41 @@ public class MainMenuActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent currIntent = getIntent();
+        String action = currIntent.getAction();
+        if (action.compareTo(Intent.ACTION_VIEW) == 0) {
+            String scheme = currIntent.getScheme();
+            ContentResolver contentResolver = getContentResolver();
+            if (scheme.compareTo(contentResolver.SCHEME_CONTENT) == 0) {
+                Uri result = currIntent.getData();
+                try {
+                    File file = new File(result.getPath());
+                    File to = new File(getExternalCacheDir(), "import.zip");
+                    to.createNewFile();
+                    InputStream input = getContentResolver().openInputStream(result);
+                    FileOutputStream output = new FileOutputStream(to);
+                    byte[] buffer = new byte[1024];
+                    int length;
+                    while ((length = input.read(buffer)) > 0) {
+                        output.write(buffer, 0, length);
+                    }
+                    ZipFile zipFile = new ZipFile(to);
+                    USM.from_profile_archive(zipFile, MainMenuActivity.this);
+                    to.delete();
+                } catch (IOException ex) {
+                    Toast.makeText(MainMenuActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                    ex.printStackTrace();
+                }
+            }
+
+        }
 
         binding = ActivityMainMenuBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
+
+        usedFiles = new Vector<>();
 
         // Bundle arguments = getIntent().getExtras();
 
@@ -580,6 +641,27 @@ public class MainMenuActivity extends AppCompatActivity {
                             @Override
                             public boolean onMenuItemClick(MenuItem menuItem) {
                                 switch (menuItem.getItemId()) {
+                                    case R.id.achieTextShareItem:
+                                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                        Date date = new Date(profile.geti("date").get(position));
+                                        DateFormat dateFormat = SimpleDateFormat.getDateInstance();
+                                        File photo = new File(getExternalFilesDir(null), "profiles" + File.separator + "res" + File.separator + profile.get_name() + File.separator + profile.gets("photo").get(position));
+                                        String additional = "";
+                                        if (profile.geti("count").get(position) != -1) {
+                                            additional = "\n\n" + profile.geti("count").get(position) + " " + profile.gets("measure").get(position);
+                                        }
+                                        String shareString = dateFormat.format(date) + "\n\n" + profile.gets("object").get(position) + "\n\n" + profile.gets("type").get(position) + additional;
+                                        shareIntent.putExtra(Intent.EXTRA_TEXT, shareString);
+                                        if (photo.exists() && photo.isFile()) {
+                                            shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(MainMenuActivity.this, BuildConfig.APPLICATION_ID, photo));
+                                            shareIntent.setType("image/*");
+                                        } else {
+                                            shareIntent.setType("text/plain");
+                                        }
+                                        shareIntent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
+                                        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                        startActivity(Intent.createChooser(shareIntent, "Send File"));
+                                        break;
                                     case R.id.edit_achie:
                                         EditAchieDialog editAchieDialog = new EditAchieDialog(MainMenuActivity.this, profile, adapter, position);
                                         editAchieDialog.show();
@@ -661,6 +743,32 @@ public class MainMenuActivity extends AppCompatActivity {
                                 Toast.makeText(MainMenuActivity.this, profile.get_name(), Toast.LENGTH_SHORT).show();
                                 cancel();
                             }
+                            @Override
+                            public void onProfileLongClick(View view, USM selectedProfile, int position)
+                            {
+                                PopupMenu menu = new PopupMenu(MainMenuActivity.this, view);
+                                menu.getMenuInflater().inflate(R.menu.profile_popup_menu, menu.getMenu());
+                                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                    @Override
+                                    public boolean onMenuItemClick(MenuItem menuItem) {
+                                        switch (menuItem.getItemId()) {
+                                            case R.id.ExportProfItem:
+                                                File archive = selectedProfile.to_prof_archive(MainMenuActivity.this);
+                                                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                                shareIntent.setType("application/x-zip-compressed");
+                                                shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(MainMenuActivity.this, BuildConfig.APPLICATION_ID, archive));
+                                                shareIntent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
+                                                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                                startActivity(Intent.createChooser(shareIntent, "Send File"));
+                                                usedFiles.add(archive);
+                                                return true;
+                                            default:
+                                                return false;
+                                        }
+                                    }
+                                });
+                                menu.show();
+                            }
                         };
                         ProfileAdapter profileAdapter = new ProfileAdapter(MainMenuActivity.this, profiles, profileClickListener);
                         profileAdapter = new ProfileAdapter(MainMenuActivity.this, profiles, profileClickListener);
@@ -725,6 +833,9 @@ public class MainMenuActivity extends AppCompatActivity {
                     Toast.makeText(MainMenuActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     return false;
                 }
+                return true;
+            case R.id.ImportProfileItem:
+                getProfArchivePath.launch("*/*");
                 return true;
             case R.id.openTerminal:
                 OpenTerminalDialog openTerminalDialog = new OpenTerminalDialog(MainMenuActivity.this);
@@ -818,6 +929,14 @@ public class MainMenuActivity extends AppCompatActivity {
         } catch (IOException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        for (File file : usedFiles) {
+            file.delete();
+        }
+        super.onDestroy();
     }
 
 }

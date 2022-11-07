@@ -18,6 +18,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
 
     interface OnProfileClickListener {
         void onProfileClick(USM profile, int position);
+        void onProfileLongClick(View view, USM profile, int position);
     }
 
     private final OnProfileClickListener onClickListener;
@@ -41,6 +42,13 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 onClickListener.onProfileClick(profile, holder.getAdapterPosition());
+            }
+        });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                onClickListener.onProfileLongClick(view, profile, holder.getAdapterPosition());
+                return true;
             }
         });
     }

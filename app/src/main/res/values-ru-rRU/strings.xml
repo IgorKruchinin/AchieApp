@@ -40,4 +40,6 @@
     <string name="OK_btn">Вперёд</string>
     <string name="open_terminal_msg">       Предупреждение!\nИспользование LOQ терминала может повредить данные приложения или нарушить его логику.\n\nИспользуйте, только если вы знаете, что делаете!</string>
     <string name="enter_command">Введите команду</string>
+    <string name="import_profile">Импортировать профиль</string>
+    <string name="share">Поделиться</string>
 </resources>

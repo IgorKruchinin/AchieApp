@@ -38,10 +38,13 @@ public class LOQ {
         boolean name_write_flag = false;
         boolean writing_flag = false;
         boolean get_flag = false;
+        boolean set_flag = false;
+        boolean cont_set_flag = false;
+        boolean setting_flag = false;
         boolean getting_flag = false;
         boolean add_value_flag = false;
         boolean adding_value_flag = false;
-        int index;
+        int index = 0;
         //String prof_name = "";
         String name = "";
         int format = -1;
@@ -139,6 +142,26 @@ public class LOQ {
                     is_changed = true;
                 }
                 continue;
+            } else if (set_flag) {
+                name = q;
+                cont_set_flag = true;
+                set_flag = false;
+                continue;
+            } else if (cont_set_flag) {
+                index = Integer.parseUnsignedInt(q);
+                setting_flag = true;
+                cont_set_flag = false;
+                continue;
+            } else if (setting_flag) {
+                if (profiles.get(prof_name).get(name) instanceof IntSection) {
+                    profiles.get(prof_name).geti(name).edit(index, Long.parseLong(q));
+                    profiles.get(prof_name).to_file(context);
+                } else if (profiles.get(prof_name).get(name) instanceof StringSection) {
+                    profiles.get(prof_name).gets(name).edit(index, q);
+                    profiles.get(prof_name).to_file(context);
+                }
+                setting_flag = false;
+                continue;
             } else if (add_value_flag) {
                 add_value_flag = false;
                 name = q;
@@ -172,6 +195,9 @@ public class LOQ {
                     break;
                 case "get":
                     get_flag = true;
+                    break;
+                case "set":
+                    set_flag = true;
                     break;
                 case "table":
                     AsTable(profiles.get(prof_name));
