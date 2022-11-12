@@ -879,10 +879,6 @@ public class MainMenuActivity extends AppCompatActivity {
             menu.show();
     }
 
-    public void export(View view) {
-        to_csv();
-    }
-
     public void to_csv() {
         File csv = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), profile.get_name() + ".csv");
         try {

@@ -2,8 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -15,6 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Achie"
         tools:targetApi="30">
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="ru.ikkui.achie.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths"/>
+        </provider>
+
         <activity
             android:name=".LOQTerm"
             android:exported="false"

@@ -164,7 +164,7 @@ public class USM implements Serializable {
     public File to_prof_archive(Context context) {
         try {
             BufferedInputStream o = null;
-            File archive = new File(context.getFilesDir() + File.separator + name_ + ".profpack");
+            File archive = new File(context.getExternalFilesDir(null) + File.separator + name_ + ".profpack");
             FileOutputStream to =  new FileOutputStream(archive);
             ZipOutputStream output = new ZipOutputStream(new BufferedOutputStream(to));
             byte[] data = new byte[512];
@@ -227,7 +227,7 @@ public class USM implements Serializable {
 
 
             BufferedInputStream o = null;
-            File archive = new File(context.getFilesDir() + File.separator + filename + "." + typename);
+            File archive = new File(context.getExternalFilesDir(null) + File.separator + filename + "." + typename);
             FileOutputStream to =  new FileOutputStream(archive);
             ZipOutputStream output = new ZipOutputStream(new BufferedOutputStream(to));
             byte[] data = new byte[512];
