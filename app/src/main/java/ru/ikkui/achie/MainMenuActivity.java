@@ -851,7 +851,9 @@ public class MainMenuActivity extends AppCompatActivity {
             getDefaultProfile();
             init();
         }
-            PopupMenu menu = new PopupMenu(MainMenuActivity.this, v);
+        AddAchieDialog achieDialog = new AddAchieDialog(MainMenuActivity.this, profile, adapter);
+        achieDialog.show();
+            /*PopupMenu menu = new PopupMenu(MainMenuActivity.this, v);
             menu.getMenuInflater().inflate(R.menu.popup_menu, menu.getMenu());
             menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
@@ -876,7 +878,7 @@ public class MainMenuActivity extends AppCompatActivity {
                     return true;
                 }
             });
-            menu.show();
+            menu.show();*/
     }
 
     public void to_csv() {
