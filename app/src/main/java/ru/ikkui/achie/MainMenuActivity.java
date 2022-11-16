@@ -543,7 +543,8 @@ public class MainMenuActivity extends AppCompatActivity {
             }
 
             File dir = new File(getExternalFilesDir(null), "profiles" + File.separator + "res" + File.separator + profile.get_name());
-            File to = new File(dir, String.valueOf(count));
+            String newFileName = count + from.getName().substring(from.getName().lastIndexOf("."));
+            File to = new File(dir, newFileName);
             try {
                 dir.mkdirs();
                 to.createNewFile();
@@ -556,7 +557,7 @@ public class MainMenuActivity extends AppCompatActivity {
                     output.write(buffer, 0, length);
                 }
 
-                imagePath = String.valueOf(profile.gets("photo").size());
+                imagePath = newFileName;
             } catch (IOException e) {
                 Toast.makeText(MainMenuActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -660,7 +661,7 @@ public class MainMenuActivity extends AppCompatActivity {
                                         }
                                         shareIntent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
                                         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                        startActivity(Intent.createChooser(shareIntent, "Send File"));
+                                        startActivity(Intent.createChooser(shareIntent, "Send"));
                                         break;
                                     case R.id.edit_achie:
                                         EditAchieDialog editAchieDialog = new EditAchieDialog(MainMenuActivity.this, profile, adapter, position);
