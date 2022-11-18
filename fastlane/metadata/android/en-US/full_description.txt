@@ -5,7 +5,7 @@ The achievements need to be countable
 Supported loading a picture in achievement adding
 
 BUG:
-    You need to restart app for your achie appear in list
+
 
 Example:
     Date field: Oct, 16 2022 (filling automatically)
