@@ -4,7 +4,7 @@ The achievements need to be countable
 
 Supported loading a picture in achievement adding
 
-BUG:
+
 
 
 Example:
