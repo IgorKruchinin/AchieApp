@@ -84,6 +84,8 @@ public class MainMenuActivity extends AppCompatActivity {
                 }
                 ZipFile zipFile = new ZipFile(to);
                 USM.from_profile_archive(zipFile, MainMenuActivity.this);
+                profile = new USM(profile.get_name(), "Achie", MainMenuActivity.this);
+                adapter.notifyDataSetChanged();
                 to.delete();
             } catch (IOException ex) {
                 Toast.makeText(MainMenuActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
@@ -587,6 +589,8 @@ public class MainMenuActivity extends AppCompatActivity {
                     }
                     ZipFile zipFile = new ZipFile(to);
                     USM.from_profile_archive(zipFile, MainMenuActivity.this);
+                    profile = new USM(profile.get_name(), "Achie", MainMenuActivity.this);
+                    adapter.notifyDataSetChanged();
                     to.delete();
                 } catch (IOException ex) {
                     Toast.makeText(MainMenuActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
@@ -619,86 +623,86 @@ public class MainMenuActivity extends AppCompatActivity {
 
 
 
-        }
+    }
 
-        private void init() {
-            if (profile != null) {
-                USMAdapter.OnAchieClickListener achieClickListener = new USMAdapter.OnAchieClickListener() {
-                    @Override
-                    public void onAchieClick(USM profile, int position) {
+    private void init() {
+        if (profile != null) {
+            USMAdapter.OnAchieClickListener achieClickListener = new USMAdapter.OnAchieClickListener() {
+                @Override
+                public void onAchieClick(USM profile, int position) {
                     /*Intent intent = new Intent(MainMenuActivity.this, ViewAchieActivity.class);
                     intent.putExtra("profile", profile);
                     intent.putExtra("index", position);
                     startActivity(intent);*/
-                        ViewAchieDialog viewAchieDialog = new ViewAchieDialog(MainMenuActivity.this, profile, position);
-                        viewAchieDialog.show();
-                    }
+                    ViewAchieDialog viewAchieDialog = new ViewAchieDialog(MainMenuActivity.this, profile, position);
+                    viewAchieDialog.show();
+                }
 
-                    @Override
-                    public void onAchieLongClick(View view, USM profile, int position) {
-                        PopupMenu menu = new PopupMenu(MainMenuActivity.this, view);
-                        menu.getMenuInflater().inflate(R.menu.achie_popup_menu, menu.getMenu());
-                        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                            @Override
-                            public boolean onMenuItemClick(MenuItem menuItem) {
-                                switch (menuItem.getItemId()) {
-                                    case R.id.achieTextShareItem:
-                                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                                        Date date = new Date(profile.geti("date").get(position));
-                                        DateFormat dateFormat = SimpleDateFormat.getDateInstance();
-                                        File photo = new File(getExternalFilesDir(null), "profiles" + File.separator + "res" + File.separator + profile.get_name() + File.separator + profile.gets("photo").get(position));
-                                        String additional = "";
-                                        if (profile.geti("count").get(position) != -1) {
-                                            additional = "\n\n" + profile.geti("count").get(position) + " " + profile.gets("measure").get(position);
-                                        }
-                                        String shareString = dateFormat.format(date) + "\n\n" + profile.gets("object").get(position) + "\n\n" + profile.gets("type").get(position) + additional;
-                                        shareIntent.putExtra(Intent.EXTRA_TEXT, shareString);
-                                        if (photo.exists() && photo.isFile()) {
-                                            shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(MainMenuActivity.this, BuildConfig.APPLICATION_ID, photo));
-                                            shareIntent.setType("image/*");
-                                        } else {
-                                            shareIntent.setType("text/plain");
-                                        }
-                                        shareIntent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
-                                        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                        startActivity(Intent.createChooser(shareIntent, "Send"));
-                                        break;
-                                    case R.id.edit_achie:
-                                        EditAchieDialog editAchieDialog = new EditAchieDialog(MainMenuActivity.this, profile, adapter, position);
-                                        editAchieDialog.show();
-                                        // Intent editIntent = new Intent(MainMenuActivity.this, AchieEditActivity.class);
-                                        // editIntent.putExtra("profile", profile);
-                                        // editIntent.putExtra("index", position);
-                                        // startActivity(editIntent);
-                                        break;
-                                    case R.id.deleteAchie:
-                                        profile.geti("date").remove(position);
-                                        profile.gets("object").remove(position);
-                                        profile.gets("type").remove(position);
-                                        profile.gets("measure").remove(position);
-                                        profile.geti("count").remove(position);
-                                        profile.gets("photo").remove(position);
-                                        profile.to_file(MainMenuActivity.this);
-                                        adapter.notifyDataSetChanged();
-                                        break;
+                @Override
+                public void onAchieLongClick(View view, USM profile, int position) {
+                    PopupMenu menu = new PopupMenu(MainMenuActivity.this, view);
+                    menu.getMenuInflater().inflate(R.menu.achie_popup_menu, menu.getMenu());
+                    menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            switch (menuItem.getItemId()) {
+                                case R.id.achieTextShareItem:
+                                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                    Date date = new Date(profile.geti("date").get(position));
+                                    DateFormat dateFormat = SimpleDateFormat.getDateInstance();
+                                    File photo = new File(getExternalFilesDir(null), "profiles" + File.separator + "res" + File.separator + profile.get_name() + File.separator + profile.gets("photo").get(position));
+                                    String additional = "";
+                                    if (profile.geti("count").get(position) != -1) {
+                                        additional = "\n\n" + profile.geti("count").get(position) + " " + profile.gets("measure").get(position);
+                                    }
+                                    String shareString = dateFormat.format(date) + "\n\n" + profile.gets("object").get(position) + "\n\n" + profile.gets("type").get(position) + additional;
+                                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareString);
+                                    if (photo.exists() && photo.isFile()) {
+                                        shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(MainMenuActivity.this, BuildConfig.APPLICATION_ID, photo));
+                                        shareIntent.setType("image/*");
+                                    } else {
+                                        shareIntent.setType("text/plain");
+                                    }
+                                    shareIntent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
+                                    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                    startActivity(Intent.createChooser(shareIntent, "Send"));
+                                    break;
+                                case R.id.edit_achie:
+                                    EditAchieDialog editAchieDialog = new EditAchieDialog(MainMenuActivity.this, profile, adapter, position);
+                                    editAchieDialog.show();
+                                    // Intent editIntent = new Intent(MainMenuActivity.this, AchieEditActivity.class);
+                                    // editIntent.putExtra("profile", profile);
+                                    // editIntent.putExtra("index", position);
+                                    // startActivity(editIntent);
+                                    break;
+                                case R.id.deleteAchie:
+                                    profile.geti("date").remove(position);
+                                    profile.gets("object").remove(position);
+                                    profile.gets("type").remove(position);
+                                    profile.gets("measure").remove(position);
+                                    profile.geti("count").remove(position);
+                                    profile.gets("photo").remove(position);
+                                    profile.to_file(MainMenuActivity.this);
+                                    adapter.notifyDataSetChanged();
+                                    break;
 
-                                }
-                                return true;
                             }
-                        });
-                        menu.show();
-                    }
-                };
+                            return true;
+                        }
+                    });
+                    menu.show();
+                }
+            };
 
-                RecyclerView recyclerView = findViewById(R.id.achies_list);
+            RecyclerView recyclerView = findViewById(R.id.achies_list);
 
-                adapter = new USMAdapter(this, profile, achieClickListener);
+            adapter = new USMAdapter(this, profile, achieClickListener);
 
-                DividerItemDecoration divider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+            DividerItemDecoration divider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
 
-                recyclerView.setAdapter(adapter);
-                recyclerView.addItemDecoration(divider);
-            }
+            recyclerView.setAdapter(adapter);
+            recyclerView.addItemDecoration(divider);
+        }
 
 
         /*List<String> achiesStrings = new Vector<String>();
@@ -861,12 +865,8 @@ public class MainMenuActivity extends AppCompatActivity {
                 public boolean onMenuItemClick(MenuItem menuItem) {
                     switch (menuItem.getItemId()) {
                         case R.id.addAchie:
-
-
                             AddAchieDialog achieDialog = new AddAchieDialog(MainMenuActivity.this, profile, adapter);
                             achieDialog.show();
-
-
                             // Intent intent = new Intent(MainMenuActivity.this, AddAchieActivity.class);
                             // intent.putExtra("profile", profile);
                             // startActivity(intent);
@@ -895,7 +895,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 csvWriter.write(s.get_name());
                 csvWriter.write(",");
                 //if (s.size() < min_size) {
-                    //min_size = s.size();
+                //min_size = s.size();
                 //}
             }
             csvWriter.write("\n");
