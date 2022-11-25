@@ -4,8 +4,6 @@ The achievements need to be countable
 
 Supported loading a picture in achievement adding
 
-BUG:
-
 
 Example:
     Date field: Oct, 16 2022 (filling automatically)
