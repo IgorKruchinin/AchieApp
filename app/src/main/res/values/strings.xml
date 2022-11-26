@@ -41,4 +41,6 @@
     <string name="enter_command">Enter command</string>
     <string name="import_profile">Import Profile</string>
     <string name="share">Share</string>
+    <string name="achies">Achies</string>
+    <string name="plans">Plans</string>
 </resources>

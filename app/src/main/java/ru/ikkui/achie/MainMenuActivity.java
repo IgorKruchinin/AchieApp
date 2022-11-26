@@ -16,6 +16,7 @@ import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -29,10 +30,12 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.core.content.MimeTypeFilter;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -93,6 +96,7 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         }
     });
+
 
     class AddAchieDialog extends  Dialog {
         USM profile;
@@ -535,7 +539,9 @@ public class MainMenuActivity extends AppCompatActivity {
     ActivityResultLauncher<String> getImagePath = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
         @Override
         public void onActivityResult(Uri uri) {
+            ContentResolver contentResolver = getContentResolver();
             File from =  new File(uri.getPath());
+            String extension = contentResolver.getType(uri);
             int count;
             try {
                 count = profile.gets("photo").size();
@@ -543,10 +549,17 @@ public class MainMenuActivity extends AppCompatActivity {
                 profile.create_ssec("photo");
                 count = profile.gets("photo").size();
             }
-
+            File to = null;
+            String newFileName;
             File dir = new File(getExternalFilesDir(null), "profiles" + File.separator + "res" + File.separator + profile.get_name());
-            String newFileName = count + from.getName().substring(from.getName().lastIndexOf("."));
-            File to = new File(dir, newFileName);
+            try {
+                newFileName = count + "." + extension.substring(extension.lastIndexOf('/') + 1);
+                to = new File(dir, newFileName);
+            } catch (NullPointerException ex) {
+                ex.printStackTrace();
+                newFileName = String.valueOf(count);
+                to = new File(dir, newFileName);
+            }
             try {
                 dir.mkdirs();
                 to.createNewFile();

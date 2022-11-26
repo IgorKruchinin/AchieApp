@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/achies_list"
+        android:layout_width="402dp"
+        android:layout_height="560dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="64dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addAchieBtn"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_marginRight="1dp"
+        android:clickable="true"
+        android:contentDescription="@string/app_name"
+        android:onClick="addAchie" />
+
+
+</LinearLayout>

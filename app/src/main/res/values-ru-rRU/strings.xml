@@ -42,4 +42,6 @@
     <string name="enter_command">Введите команду</string>
     <string name="import_profile">Импортировать профиль</string>
     <string name="share">Поделиться</string>
+    <string name="achies">Достижения</string>
+    <string name="plans">Планы</string>
 </resources>
