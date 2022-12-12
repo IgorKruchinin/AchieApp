@@ -8,3 +8,6 @@ The app for registering achievements (Achies)
      height="80">](https://f-droid.org/packages/ru.ikkui.achie/)
 
 or get the app from the [Releases section](https://github.com/IgorKruchinin/AchieApp/releases/latest).
+
+Telegram group:  t.me/ikkuidev_testing
+Telegram channel: t.me/ikkuidev
