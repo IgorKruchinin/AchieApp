@@ -9,5 +9,6 @@ The app for registering achievements (Achies)
 
 or get the app from the [Releases section](https://github.com/IgorKruchinin/AchieApp/releases/latest).
 
-Telegram group: [<a href="t.me/ikkuidev_testing">Telegram group</a>]
-Telegram channel: [ <a href="t.me/ikkuidev">Telegram channel</a>]
+<a href="https://t.me/ikkuidev_testing">Telegram group</a>
+
+<a href="https://t.me/ikkuidev">Telegram channel</a>
