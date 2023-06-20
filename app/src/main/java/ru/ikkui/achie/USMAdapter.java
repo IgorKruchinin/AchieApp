@@ -58,6 +58,7 @@ public class USMAdapter extends RecyclerView.Adapter<USMAdapter.ViewHolder>{
             DateFormat dateFormat = SimpleDateFormat.getDateInstance();
             holder.date.setText(dateFormat.format(date));
             holder.object.setText(objects.get(position));
+            holder.count.setText(String.valueOf(counts.get(position)));
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -80,10 +81,12 @@ public class USMAdapter extends RecyclerView.Adapter<USMAdapter.ViewHolder>{
     public static class ViewHolder extends RecyclerView.ViewHolder {
         final TextView date;
         final TextView object;
+        final TextView count;
         ViewHolder(View view) {
             super(view);
             date = view.findViewById(R.id.item_achie_date);
             object = view.findViewById(R.id.item_achie_object);
+            count = view.findViewById(R.id.item_achie_count);
         }
     }
 }
