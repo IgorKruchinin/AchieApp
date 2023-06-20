@@ -111,8 +111,6 @@ public class MainMenuActivity extends AppCompatActivity {
         List<String> achieObject;
         TextView achieTypeFld;
         List<String> achieType;
-        TextView achieMeasureFld;
-        List<String> achieMeasure;
         TextView achieCountFld;
         // private String imagePath = "";
 
@@ -160,9 +158,6 @@ public class MainMenuActivity extends AppCompatActivity {
             achieTypeFld = findViewById(R.id.achieTypeFld);
             achieType = profile.gets("type").getObjects_();
             achieTypeFld.setAutofillHints(achieType.toArray(new String[achieType.size()]));
-            achieMeasureFld = findViewById(R.id.achieMeasureFld);
-            achieMeasure = profile.gets("measure").getObjects_();
-            achieMeasureFld.setAutofillHints(achieMeasure.toArray(new String[achieMeasure.size()]));
             achieCountFld = findViewById(R.id.achieCountFld);
             Button loadImageBtn = findViewById(R.id.loadImageBtn);
             loadImageBtn.setOnClickListener(new View.OnClickListener() {
@@ -181,7 +176,6 @@ public class MainMenuActivity extends AppCompatActivity {
                         profile.create_isec("date");
                         profile.create_ssec("object");
                         profile.create_ssec("type");
-                        profile.create_ssec("measure");
                         profile.create_isec("count");
                         profile.create_ssec("photo");
                     }
@@ -190,7 +184,6 @@ public class MainMenuActivity extends AppCompatActivity {
                     profile.geti("date").add(date.getTime());
                     profile.gets("object").add(achieObjectFld.getText().toString());
                     profile.gets("type").add(achieTypeFld.getText().toString());
-                    profile.gets("measure").add(achieMeasureFld.getText().toString());
                     String achieCount = achieCountFld.getText().toString();
                     if (!(achieCount).equals("")) {
                         profile.geti("count").add(Integer.parseInt(achieCount));
@@ -228,8 +221,6 @@ public class MainMenuActivity extends AppCompatActivity {
         List<String> achieObject;
         TextView achieTypeFld;
         List<String> achieType;
-        TextView achieMeasureFld;
-        List<String> achieMeasure;
         TextView achieCountFld;
 
         // private String imagePath = "";
@@ -280,10 +271,6 @@ public class MainMenuActivity extends AppCompatActivity {
             achieTypeFld.setText(profile.gets("type").get(position));
             achieType = profile.gets("type").getObjects_();
             achieTypeFld.setAutofillHints(achieType.toArray(new String[achieType.size()]));
-            achieMeasureFld = findViewById(R.id.achieMeasureFld);
-            achieMeasureFld.setText(profile.gets("measure").get(position));
-            achieMeasure = profile.gets("measure").getObjects_();
-            achieMeasureFld.setAutofillHints(achieMeasure.toArray(new String[achieMeasure.size()]));
             achieCountFld = findViewById(R.id.achieCountFld);
             achieCountFld.setText(String.valueOf(profile.geti("count").get(position)));
             Button loadImageBtn = findViewById(R.id.loadImageBtn);
@@ -305,7 +292,6 @@ public class MainMenuActivity extends AppCompatActivity {
                         profile.create_isec("date");
                         profile.create_ssec("object");
                         profile.create_ssec("type");
-                        profile.create_ssec("measure");
                         profile.create_isec("count");
                         profile.create_ssec("photo");
                     }
@@ -314,7 +300,6 @@ public class MainMenuActivity extends AppCompatActivity {
                     profile.geti("date").edit(position, date.getTime());
                     profile.gets("object").edit(position, achieObjectFld.getText().toString());
                     profile.gets("type").edit(position, achieTypeFld.getText().toString());
-                    profile.gets("measure").edit(position, achieMeasureFld.getText().toString());
                     profile.geti("count").edit(position, Integer.parseInt(achieCountFld.getText().toString()));
                     try {
                         profile.gets("photo").edit(position, imagePath);
@@ -391,7 +376,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 viewObject.setText(profile.gets("object").get(index));
                 viewType.setText(profile.gets("type").get(index));
                 if (profile.geti("count").get(index) >= 0) {
-                    viewCount.setText(String.valueOf(profile.geti("count").get(index)) + " " + profile.gets("measure").get(index));
+                    viewCount.setText(String.valueOf(profile.geti("count").get(index)));
                 }
                 viewPhoto.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -474,7 +459,6 @@ public class MainMenuActivity extends AppCompatActivity {
                         profile.create_isec("date");
                         profile.create_ssec("object");
                         profile.create_ssec("type");
-                        profile.create_ssec("measure");
                         profile.create_isec("count");
                         profile.create_ssec("photo");
                         profile.to_file(MainMenuActivity.this);
@@ -666,7 +650,7 @@ public class MainMenuActivity extends AppCompatActivity {
                                     File photo = new File(getExternalFilesDir(null), "profiles" + File.separator + "res" + File.separator + profile.get_name() + File.separator + profile.gets("photo").get(position));
                                     String additional = "";
                                     if (profile.geti("count").get(position) != -1) {
-                                        additional = "\n\n" + profile.geti("count").get(position) + " " + profile.gets("measure").get(position);
+                                        additional = "\n\n" + profile.geti("count").get(position);
                                     }
                                     String shareString = dateFormat.format(date) + "\n\n" + profile.gets("object").get(position) + "\n\n" + profile.gets("type").get(position) + additional;
                                     shareIntent.putExtra(Intent.EXTRA_TEXT, shareString);
@@ -692,7 +676,6 @@ public class MainMenuActivity extends AppCompatActivity {
                                     profile.geti("date").remove(position);
                                     profile.gets("object").remove(position);
                                     profile.gets("type").remove(position);
-                                    profile.gets("measure").remove(position);
                                     profile.geti("count").remove(position);
                                     profile.gets("photo").remove(position);
                                     profile.to_file(MainMenuActivity.this);
@@ -825,7 +808,6 @@ public class MainMenuActivity extends AppCompatActivity {
                                 newProfile.create_isec("date");
                                 newProfile.create_ssec("object");
                                 newProfile.create_ssec("type");
-                                newProfile.create_ssec("measure");
                                 newProfile.create_isec("count");
                                 newProfile.create_ssec("photo");
                                 newProfile.to_file(MainMenuActivity.this);

@@ -19,7 +19,6 @@ public class USMAdapter extends RecyclerView.Adapter<USMAdapter.ViewHolder>{
     private USM profile;
     private List<Long> dates;
     private List<String> objects;
-    private List<String> measures;
     private List<Long> counts;
 
     interface OnAchieClickListener {
@@ -37,7 +36,6 @@ public class USMAdapter extends RecyclerView.Adapter<USMAdapter.ViewHolder>{
         this.profile = profile;
         this.dates = this.profile.geti("date").getObjects_();
         this.objects = this.profile.gets("object").getObjects_();
-        this.measures = this.profile.gets("measure").getObjects_();
         this.counts = this.profile.geti("count").getObjects_();
         this.inflater = LayoutInflater.from(context);
     }
@@ -45,7 +43,6 @@ public class USMAdapter extends RecyclerView.Adapter<USMAdapter.ViewHolder>{
         profile = anotherProfile;
         dates = this.profile.geti("date").getObjects_();
         objects = this.profile.gets("object").getObjects_();
-        measures = this.profile.gets("measure").getObjects_();
         counts = this.profile.geti("count").getObjects_();
         notifyDataSetChanged();
     }

@@ -36,13 +36,6 @@
         android:inputType="textPersonName"
         android:textColorHint="#757575" />
 
-    <AutoCompleteTextView
-        android:id="@+id/achieMeasureFld"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:hint="@string/measure" />
-
     <EditText
         android:id="@+id/achieCountFld"
         android:layout_width="match_parent"

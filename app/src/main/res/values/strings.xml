@@ -5,10 +5,9 @@
     <string name="profile_name">Profile name</string>
     <string name="create">Create</string>
     <string name="date">Date</string>
-    <string name="object">Object of achieve</string>
-    <string name="type">Type of achieve</string>
-    <string name="measure">Measure</string>
-    <string name="count">Count</string>
+    <string name="object">Name of achieve</string>
+    <string name="type">Description of achieve</string>
+    <string name="count">Count (if there is)</string>
     <string name="add">Add</string>
     <string name="addToPlan">Add Achie to plan</string>
     <string name="addAchie">Add complete Achie</string>

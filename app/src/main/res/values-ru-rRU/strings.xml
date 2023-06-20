@@ -6,10 +6,9 @@
     <string name="profile_name">Имя профиля</string>
     <string name="create">Создать</string>
     <string name="date">Дата</string>
-    <string name="object">В какой сфере достижение</string>
-    <string name="type">Тип достижения</string>
-    <string name="measure">Мера</string>
-    <string name="count">Количество</string>
+    <string name="object">Название достижения</string>
+    <string name="type">Описание достижения</string>
+    <string name="count">Количество (если есть)</string>
     <string name="add">Добавить</string>
     <string name="addToPlan">Запланировать достижение</string>
     <string name="addAchie">Добавить достижение</string>
