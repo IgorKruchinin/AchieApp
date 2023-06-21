@@ -3,7 +3,7 @@ Achie
 
 The app for registering achievements (Achies)
 
-[<img src="https://help.rustore.ru/pic/d/2/d2ca5f4870b8d8f4e42e5ab7fa288629.png" alt="Скачайте из RuStore" height="80">](https://apps.rustore.ru/app/ru.ikkui.achie/)
+[<img src="edc2a045e17e4971c7cca77c7fde4b66.png" alt="Скачайте из RuStore" height="80">](https://apps.rustore.ru/app/ru.ikkui.achie/)
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
      alt="Get it on F-Droid"
