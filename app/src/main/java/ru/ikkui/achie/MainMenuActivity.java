@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.text.InputType;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -521,6 +522,8 @@ public class MainMenuActivity extends AppCompatActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.warning_dialog);
+            TextView warning = findViewById(R.id.warningMsg);
+            warning.setMovementMethod(LinkMovementMethod.getInstance());
 
             Button OKButton = findViewById(R.id.OKBtn);
             OKButton.setOnClickListener(new View.OnClickListener() {
