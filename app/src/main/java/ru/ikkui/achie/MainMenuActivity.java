@@ -513,6 +513,25 @@ public class MainMenuActivity extends AppCompatActivity {
         }
     }
 
+    public class WarningDialog extends Dialog {
+        public WarningDialog(Context context) {
+            super(context);
+        }
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.warning_dialog);
+
+            Button OKButton = findViewById(R.id.OKBtn);
+            OKButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cancel();
+                }
+            });
+        }
+    }
+
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainMenuBinding binding;
     private Button addAchieBtn;
@@ -613,6 +632,8 @@ public class MainMenuActivity extends AppCompatActivity {
         getDefaultProfile();
 
         if (profile == null) {
+            WarningDialog wd = new WarningDialog(this);
+            wd.show();
             DefaultProfileDialog dialog = new DefaultProfileDialog(this);
             dialog.show();
             getDefaultProfile();

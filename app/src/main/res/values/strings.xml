@@ -30,6 +30,7 @@
     <string name="select_profile">Select profile</string>
     <string name="add_profile">Add profile</string>
     <string name="new_profile_message">Create a new profile:</string>
+    <string name="warning_message">Warning! This app is free and open source. <a href="https://github.com/IgorKruchinin/AchieApp">Github repository</a>. This app distributing under <a href="https://github.com/IgorKruchinin/AchieApp/blob/master/LICENSE">GNU GPL v2 license</a>. If you are required to pay for the application, these are scammers!</string>
     <string name="make_default">Make this profile as default</string>
     <string name="add_achie_message">Enter the date, name, description and also measure and count of Achie (if it has):</string>
     <string name="title_activity_loqterm">LOQTerm</string>

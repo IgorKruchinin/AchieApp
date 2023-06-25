@@ -28,6 +28,7 @@
     <string name="edit">Изменить</string>
     <string name="edit_achie">Редактировать достижение</string>
     <string name="create_new_default_profile_message">Профиль по умолчанию не найден! Создайте новый или введите имя существующего профиля, чтобы сделать его профилем по-умолчанию</string>
+    <string name="warning_message">Внимание! Это приложение с открытым исходным кодом и оно является бесплатным. <a href="https://github.com/IgorKruchinin/AchieApp">Репозиторий на Github</a>. Это приложение распространяется под лицензией <a href="https://github.com/IgorKruchinin/AchieApp/blob/master/LICENSE">GNU GPL v2</a>. Если с вас требуют деньги за приложение, это мошенники!</string>
     <string name="select_profile">Выбрать профиль</string>
     <string name="add_profile">Добавить профиль</string>
     <string name="new_profile_message">Создайте новый профиль:</string>
