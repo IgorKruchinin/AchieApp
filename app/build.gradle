@@ -9,7 +9,7 @@ android {
         applicationId "ru.ikkui.achie"
         minSdk 28
         targetSdk 32
-        versionCode 7
+        versionCode 8
         versionName "1.3a"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
