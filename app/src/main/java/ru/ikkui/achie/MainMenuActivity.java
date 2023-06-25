@@ -272,7 +272,10 @@ public class MainMenuActivity extends AppCompatActivity {
             achieType = profile.gets("type").getObjects_();
             achieTypeFld.setAutofillHints(achieType.toArray(new String[achieType.size()]));
             achieCountFld = findViewById(R.id.achieCountFld);
-            achieCountFld.setText(String.valueOf(profile.geti("count").get(position)));
+            long count = profile.geti("count").get(position);
+            if (count >= 0) {
+                achieCountFld.setText(String.valueOf(count));
+            }
             Button loadImageBtn = findViewById(R.id.loadImageBtn);
             loadImageBtn.setOnClickListener(new View.OnClickListener() {
                 @Override

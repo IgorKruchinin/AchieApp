@@ -58,7 +58,10 @@ public class USMAdapter extends RecyclerView.Adapter<USMAdapter.ViewHolder>{
             DateFormat dateFormat = SimpleDateFormat.getDateInstance();
             holder.date.setText(dateFormat.format(date));
             holder.object.setText(objects.get(position));
-            holder.count.setText(String.valueOf(counts.get(position)));
+            long count = counts.get(position);
+            if (count >= 0) {
+                holder.count.setText(String.valueOf(count));
+            }
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
