@@ -6,7 +6,9 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -575,14 +577,29 @@ public class MainMenuActivity extends AppCompatActivity {
                 dir.mkdirs();
                 to.createNewFile();
                 InputStream input = getContentResolver().openInputStream(uri);
-                OutputStream output = new FileOutputStream(to);
 
-                byte[] buffer = new byte[1024];
-                int length;
-                while ((length = input.read(buffer)) > 0) {
-                    output.write(buffer, 0, length);
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                options.inSampleSize = 6;
+                BitmapFactory.decodeStream(input, null, options);
+                input.close();
+                final int requiredSize = 4096;
+                int scale = 1;
+
+                while (options.outWidth / scale / 2 >= requiredSize && options.outHeight / scale / 2 >= requiredSize) {
+                    scale *= 2;
                 }
-
+                BitmapFactory.Options options1 = new BitmapFactory.Options();
+                options1.inSampleSize = scale;
+                input = getContentResolver().openInputStream(uri);
+                Bitmap selectedBitmap = BitmapFactory.decodeStream(input);
+                selectedBitmap = Bitmap.createScaledBitmap(selectedBitmap, selectedBitmap.getWidth() / 5, selectedBitmap.getHeight() / 5,true);
+                input.close();
+                Matrix matrix = new Matrix();
+                matrix.postRotate(-90);
+                selectedBitmap = Bitmap.createBitmap(selectedBitmap, 0, 0, selectedBitmap.getWidth(), selectedBitmap.getHeight(), matrix, true);
+                OutputStream output = new FileOutputStream(to);
+                selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 50, output);
                 imagePath = newFileName;
             } catch (IOException e) {
                 Toast.makeText(MainMenuActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
