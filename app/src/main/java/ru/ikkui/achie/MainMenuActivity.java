@@ -276,6 +276,8 @@ public class MainMenuActivity extends AppCompatActivity {
             long count = profile.geti("count").get(position);
             if (count >= 0) {
                 achieCountFld.setText(String.valueOf(count));
+            } else {
+                achieCountFld.setText("");
             }
             Button loadImageBtn = findViewById(R.id.loadImageBtn);
             loadImageBtn.setOnClickListener(new View.OnClickListener() {
